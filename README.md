@@ -6,6 +6,8 @@ A11y Form Validator is a progressive enhancement plugin for forms that already u
 
 ## Installation
 
+A11y Form Validator is published on npm as [`a11y-form-validator`](https://www.npmjs.com/package/a11y-form-validator).
+
 ```bash
 npm install a11y-form-validator
 pnpm add a11y-form-validator
