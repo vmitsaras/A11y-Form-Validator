@@ -356,6 +356,8 @@ Build the package with `npm run build` before opening local example or demo page
 
 Build the GitHub Pages artifact with `npm run pages:build`. The generated static site is written to `pages-dist/` for the Pages workflow.
 
+For first-time GitHub Pages deployment, enable GitHub Actions as the Pages source in the repository settings: Settings -> Pages -> Build and deployment -> Source -> GitHub Actions. The default workflow token cannot self-enable Pages through `actions/configure-pages`; after the setting exists, the workflow deploys `pages-dist/`.
+
 ## Docs Metadata
 
 ```ts
