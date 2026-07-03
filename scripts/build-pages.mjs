@@ -8,8 +8,9 @@ const demoDir = path.join(rootDir, 'demo');
 const distDir = path.join(rootDir, 'dist');
 const outputDir = path.join(rootDir, 'pages-dist');
 const outputDistDir = path.join(outputDir, 'dist');
-const outputLocalesDir = path.join(outputDistDir, 'locales');
 const readmeUrl = 'https://github.com/vmitsaras/A11y-Form-Validator#readme';
+const localJsImportPattern =
+  /(?:import|export)\s+(?:[^"']*?\s+from\s+)?["']((?:\.{1,2}\/)[^"']+\.js)["']|import\(\s*["']((?:\.{1,2}\/)[^"']+\.js)["']\s*\)/g;
 
 async function assertReadable(filePath) {
   try {
@@ -66,38 +67,61 @@ async function copyDirectory(sourceDir, outputDirPath) {
 }
 
 async function copyBuiltAssets() {
-  const requiredFiles = ['index.js', 'index.min.js', 'styles.css'];
-  const optionalFiles = ['index.js.map', 'index.min.js.map'];
+  await assertReadable(path.join(distDir, 'index.js'));
+  await assertReadable(path.join(distDir, 'index.min.js'));
+  await assertReadable(path.join(distDir, 'styles.css'));
 
-  for (const fileName of requiredFiles) {
-    const sourcePath = path.join(distDir, fileName);
-    await assertReadable(sourcePath);
-    await copyFile(sourcePath, path.join(outputDistDir, fileName));
+  await copyDirectory(distDir, outputDistDir);
+}
+
+async function findJavaScriptFiles(directoryPath) {
+  const entries = await readdir(directoryPath, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const entryPath = path.join(directoryPath, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...(await findJavaScriptFiles(entryPath)));
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith('.js')) {
+      files.push(entryPath);
+    }
   }
 
-  for (const fileName of optionalFiles) {
-    const sourcePath = path.join(distDir, fileName);
+  return files;
+}
+
+async function assertLocalJsImportsExist(filePath) {
+  const source = await readFile(filePath, 'utf8');
+  const matches = source.matchAll(localJsImportPattern);
+
+  for (const match of matches) {
+    const importPath = match[1] || match[2];
+    const resolvedPath = path.resolve(path.dirname(filePath), importPath);
 
     try {
-      await access(sourcePath, fsConstants.R_OK);
-      await copyFile(sourcePath, path.join(outputDistDir, fileName));
+      await assertReadable(resolvedPath);
     } catch {
-      // Source maps are useful for Pages debugging but should not block deployment.
+      throw new Error(
+        `Missing Pages runtime import: ${importPath} referenced by ${path.relative(rootDir, filePath)}`
+      );
     }
   }
+}
 
-  const localesDir = path.join(distDir, 'locales');
-  const localeFiles = await readdir(localesDir);
-  await mkdir(outputLocalesDir, { recursive: true });
+async function assertPagesRuntimeFiles() {
+  await assertReadable(path.join(outputDistDir, 'index.js'));
+  await assertReadable(path.join(outputDistDir, 'index.min.js'));
+  await assertReadable(path.join(outputDistDir, 'styles.css'));
 
-  for (const fileName of localeFiles) {
-    if (fileName.endsWith('.json')) {
-      await copyFile(path.join(localesDir, fileName), path.join(outputLocalesDir, fileName));
-    }
+  const javaScriptFiles = await findJavaScriptFiles(outputDistDir);
+
+  for (const filePath of javaScriptFiles) {
+    await assertLocalJsImportsExist(filePath);
   }
-
-  await copyDirectory(path.join(distDir, 'addons'), path.join(outputDistDir, 'addons'));
-  await copyDirectory(path.join(distDir, 'presets'), path.join(outputDistDir, 'presets'));
 }
 
 async function writePagesSupportFiles() {
@@ -131,4 +155,5 @@ await rm(outputDir, { recursive: true, force: true });
 await mkdir(outputDistDir, { recursive: true });
 await copyDemoAssets();
 await copyBuiltAssets();
+await assertPagesRuntimeFiles();
 await writePagesSupportFiles();
