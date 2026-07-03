@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A11y Form Validator - Plugin hub and demos</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../dist/styles.css" />
+  </head>
+  <body class="index-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero__content">
+            <p class="eyebrow">Plugin overview</p>
+            <h1 id="hero-title">Accessible form validation that keeps your real form markup.</h1>
+            <p class="hero__lead">
+              A11y Form Validator enhances existing labels, inputs, selects, textareas, checkboxes,
+              radio groups, and fieldsets. It reads native constraints, supports custom rules,
+              async validation, and server errors, renders accessible inline messages, can add a focusable summary
+              and character counts, supports opt-in locale packs, and cleans up generated DOM when destroyed.
+            </p>
+            <div class="hero__actions" aria-label="Primary actions">
+              <a class="button" href="basic.html">Open basic demo</a>
+              <a class="button button--secondary" href="#quick-start">See quick start</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-labelledby="hero-panel-title">
+            <h2 id="hero-panel-title">Built for</h2>
+            <ul class="check-list">
+              <li>Semantic forms that already have labels and native controls.</li>
+              <li>Products that need inline errors and a focusable summary.</li>
+              <li>Teams that want custom rules without replacing browser form behavior.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="section" id="features" aria-labelledby="features-title">
+          <div class="section__header">
+            <p class="eyebrow">What it does</p>
+            <h2 id="features-title">Validation behavior, messages, and state in one small layer</h2>
+            <p>
+              The plugin is designed as progressive enhancement: your form stays useful HTML, and
+              JavaScript adds validation state, messages, focus handling, and optional addons.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card">
+              <span class="badge">Native rules</span>
+              <h3>Reads HTML constraints</h3>
+              <p>
+                Supports required fields, email inputs, minlength, maxlength, pattern, required
+                checkboxes, radio groups, and checkbox groups.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--green">Custom rules</span>
+              <h3>Add rules and messages</h3>
+              <p>
+                Use <code>data-validate</code>, <code>data-message-*</code>, global messages, field
+                messages, or registered rules for product-specific validation.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--red">Errors</span>
+              <h3>Inline messages</h3>
+              <p>
+                Generated errors connect to fields with <code>aria-describedby</code> and
+                <code>aria-errormessage</code>, while preserving existing descriptions.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--amber">Summary</span>
+              <h3>Focusable error summary</h3>
+              <p>
+                The summary addon creates a labelled, focusable section with links to invalid fields and can
+                receive focus after blocked submits.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--green">Addon</span>
+              <h3>Character count</h3>
+              <p>
+                Controls with <code>maxlength</code>, <code>minlength</code>, or
+                <code>data-character-count</code> can expose a polite count message.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge">Server</span>
+              <h3>Server errors</h3>
+              <p>
+                Apply field-level and form-level server errors with <code>setErrors()</code> after
+                failed sign-in, registration, checkout, or session checks.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--amber">Async</span>
+              <h3>Remote validation</h3>
+              <p>
+                Async custom rules support flows such as username availability or invite-code checks.
+                Request cancellation remains the application responsibility.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--red">Lifecycle</span>
+              <h3>Clean init and destroy</h3>
+              <p>
+                Duplicate initialization returns the existing instance, and <code>destroy()</code>
+                removes listeners, generated errors, addon DOM, timers, classes, and ARIA state.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <span class="badge badge--green">Locales</span>
+              <h3>Message packs</h3>
+              <p>
+                English messages stay in the main bundle. Other locale JSON files are opt-in and can
+                be imported or supplied inline during initialization.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section--split" id="quick-start" aria-labelledby="quick-start-title">
+          <div class="section__header">
+            <p class="eyebrow">Quick start</p>
+            <h2 id="quick-start-title">Enhance a normal form</h2>
+            <p>
+              Build the package before opening local demos. Demo pages import from
+              <code>../dist/index.js</code> and <code>../dist/styles.css</code>; the direct browser demo
+              imports <code>../dist/index.min.js</code>.
+            </p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="markup-title">
+              <h3 id="markup-title">1. Keep semantic HTML</h3>
+              <pre><code>&lt;link rel="stylesheet" href="../dist/styles.css" /&gt;
+
+&lt;form data-a11y-form-validator&gt;
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input id="email" name="email" type="email" required /&gt;
+
+  &lt;label for="message"&gt;Message&lt;/label&gt;
+  &lt;textarea
+    id="message"
+    name="message"
+    required
+    minlength="10"
+    maxlength="180"
+    data-character-count
+  &gt;&lt;/textarea&gt;
+
+  &lt;button type="submit"&gt;Send&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="script-title">
+              <h3 id="script-title">2. Initialize the plugin</h3>
+              <pre><code>&lt;script type="module"&gt;
+  import {
+    createDefaultPreset,
+    createFormValidator
+  } from "../dist/index.js";
+
+  const form = document.querySelector(
+    "[data-a11y-form-validator]"
+  );
+
+  if (form instanceof HTMLFormElement) {
+    createFormValidator(form, createDefaultPreset());
+  }
+&lt;/script&gt;</code></pre>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="api" aria-labelledby="api-title">
+          <div class="section__header">
+            <p class="eyebrow">API at a glance</p>
+            <h2 id="api-title">Start with one form, then add options only when the integration needs them</h2>
+            <p>
+              Use <code>createDefaultPreset()</code> when the page should include the error summary addon.
+              Use <code>createNoSummaryPreset()</code> for the same submit and blur validation pattern
+              without summary UI. Keep the returned instance when your app needs server errors, dynamic
+              fields, custom rules, or validation events.
+            </p>
+          </div>
+
+          <div class="api-grid">
+            <article class="api-card">
+              <span class="badge">Start here</span>
+              <h3><code>createFormValidator(form, options)</code></h3>
+              <p>
+                Enhances one <code>HTMLFormElement</code> and returns the validator instance. Calling it
+                again on the same form returns the existing instance.
+              </p>
+            </article>
+
+            <article class="api-card">
+              <span class="badge badge--green">Many forms</span>
+              <h3><code>initFormValidators(options, root)</code></h3>
+              <p>
+                Finds every <code>[data-a11y-form-validator]</code> form under <code>root</code> and
+                initializes each one with the same options.
+              </p>
+            </article>
+
+            <article class="api-card">
+              <span class="badge badge--amber">Presets</span>
+              <h3><code>createDefaultPreset()</code>, <code>createNoSummaryPreset()</code>, or <code>createMinimalPreset()</code></h3>
+              <p>
+                Default includes the error summary addon. No-summary keeps submit and blur validation
+                without summary UI. Minimal validates on submit and focuses the first invalid field.
+              </p>
+            </article>
+
+            <article class="api-card">
+              <span class="badge badge--red">Advanced</span>
+              <h3><code>A11yFormValidator</code></h3>
+              <p>
+                Direct class construction is available for class-based integrations, but the factory is
+                the simplest entry point for most pages.
+              </p>
+            </article>
+          </div>
+
+          <div class="method-groups" aria-label="Common API choices">
+            <article class="method-group">
+              <h3>Options you will usually touch first</h3>
+              <ul class="method-list">
+                <li><code>validateOn</code> chooses submit, blur, input, or change triggers.</li>
+                <li><code>focusOnError</code> sends focus to the summary, first invalid field, or nowhere.</li>
+                <li><code>errorMode</code> chooses inline, native, or both error presentation.</li>
+                <li><code>addons</code> accepts imported addon objects such as the error summary or character count helpers.</li>
+              </ul>
+            </article>
+
+            <article class="method-group">
+              <h3>Control validation from your app</h3>
+              <ul class="method-list">
+                <li><code>validate()</code> checks the whole form.</li>
+                <li><code>validateField()</code> checks one field by name or element.</li>
+                <li><code>refresh()</code> rescans fields after dynamic markup changes.</li>
+                <li><code>getErrors()</code> and <code>getState()</code> expose the current state.</li>
+              </ul>
+            </article>
+
+            <article class="method-group">
+              <h3>Handle server errors and cleanup</h3>
+              <ul class="method-list">
+                <li><code>setErrors()</code> renders field and form errors from your backend.</li>
+                <li><code>clearErrors()</code> removes rendered validation messages.</li>
+                <li><code>focusOnError()</code> moves focus according to your configured behavior.</li>
+                <li><code>destroy()</code> removes listeners, generated DOM, classes, and ARIA state.</li>
+              </ul>
+            </article>
+
+            <article class="method-group">
+              <h3>Extend behavior when native rules are not enough</h3>
+              <ul class="method-list">
+                <li><code>rules</code> adds field-specific validation configuration.</li>
+                <li><code>messages</code>, <code>locales</code>, and <code>locale</code> customize error text.</li>
+                <li><code>registerRule()</code> and <code>unregisterRule()</code> manage custom rules.</li>
+                <li><code>renderer</code> replaces the default inline error rendering.</li>
+              </ul>
+            </article>
+          </div>
+
+          <aside class="event-note" aria-labelledby="events-title">
+            <h3 id="events-title">Listen only when your app needs hooks</h3>
+            <p>
+              Lifecycle and validation events bubble from the form. Common hooks include
+              <code>a11y-form-validator:init</code>, <code>a11y-form-validator:after-validate</code>,
+              <code>a11y-form-validator:field-invalid</code>,
+              <code>a11y-form-validator:submit-blocked</code>, and
+              <code>a11y-form-validator:destroy</code>.
+            </p>
+          </aside>
+        </section>
+
+        <section class="section" id="accessibility" aria-labelledby="accessibility-title">
+          <div class="section__header">
+            <p class="eyebrow">Accessibility behavior</p>
+            <h2 id="accessibility-title">Designed to preserve native form interaction</h2>
+          </div>
+
+          <div class="note-grid">
+            <article class="note-card">
+              <h3>Messages and descriptions</h3>
+              <p>
+                Inline errors are tied to controls with generated IDs, polite live regions, and
+                restored <code>aria-describedby</code> values when errors clear or the plugin is destroyed.
+              </p>
+            </article>
+
+            <article class="note-card">
+              <h3>Focus after blocked submit</h3>
+              <p>
+                Depending on <code>focusOnError</code>, focus can move to the summary, the first invalid
+                field, or stay under application control.
+              </p>
+            </article>
+
+            <article class="note-card">
+              <h3>Groups stay grouped</h3>
+              <p>
+                Radio groups and checkbox groups sharing a <code>name</code> are treated as grouped
+                fields, with errors rendered outside option labels.
+              </p>
+            </article>
+
+            <article class="note-card">
+              <h3>Native keyboard behavior</h3>
+              <p>
+                Tab moves through fields and summary links, Enter submits forms or activates links,
+                and Space toggles native checkboxes and radio buttons.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="demos" aria-labelledby="demos-title">
+          <div class="section__header">
+            <p class="eyebrow">Demo gallery</p>
+            <h2 id="demos-title">Choose the example that matches the integration problem</h2>
+            <p>
+              Each demo focuses on one behavior so the markup, rule setup, and validation state are
+              easy to inspect.
+            </p>
+          </div>
+
+          <div class="demo-grid">
+            <a class="demo-card" href="basic.html">
+              <span class="badge">Start here</span>
+              <h3>Basic</h3>
+              <p>Semantic contact form with inline errors, a summary, grouped choices, and character count guidance.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Default preset and addon setup.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Submit the empty form, then fix each linked field.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="minified.html">
+              <span class="badge badge--green">Minified</span>
+              <h3>Direct Browser Build</h3>
+              <p>Same semantic form enhancement imported directly from the optional minified ESM file.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Static-site or CDN-style usage without a bundler.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Inspect the module import and submit the empty form.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="contact.html">
+              <span class="badge badge--green">Minimal</span>
+              <h3>Contact Form</h3>
+              <p>A small form using the minimal preset and native required, email, and minlength checks.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Seeing the smallest useful integration.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Submit with a short message, then add enough text.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="cms-markup.html">
+              <span class="badge">CMS</span>
+              <h3>CMS Markup</h3>
+              <p>Data-attribute rules and messages for markup produced by content systems or templates.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd><code>data-validate</code> and <code>data-message-*</code>.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Leave email blank, then enter an invalid address.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="error-summary.html">
+              <span class="badge badge--amber">Summary</span>
+              <h3>Error Summary</h3>
+              <p>Labelled, focusable summary region with links that send users back to invalid fields.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Blocked submit recovery and field navigation.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Submit empty, then follow a summary link.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="registration.html">
+              <span class="badge badge--red">Custom</span>
+              <h3>Registration</h3>
+              <p>Password confirmation with a custom <code>same-as</code> rule and custom error copy.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Cross-field validation.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Use two different passwords and submit.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="login-register.html">
+              <span class="badge">Auth flow</span>
+              <h3>Login / Register</h3>
+              <p>Switch between login and registration forms while only the visible form is active and validated.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Hidden form boundaries, focus movement, and scoped validation.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Submit login empty, switch to register, then test mismatched passwords.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="checkout.html">
+              <span class="badge badge--green">Conditional</span>
+              <h3>Checkout</h3>
+              <p>Conditional billing validation plus required shipping and payment method choices.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Rules that depend on another control.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Check different billing, leave billing address empty, and submit.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="remote-validation.html">
+              <span class="badge badge--amber">Async</span>
+              <h3>Remote Validation</h3>
+              <p>Username availability checked with an async custom rule and debounced input validation.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Remote checks and pending state review.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Enter <code>admin</code> or <code>editor</code>.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="server-errors.html">
+              <span class="badge badge--red">Server</span>
+              <h3>Server Errors</h3>
+              <p>Apply server-provided field and form messages after a failed request.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd><code>setErrors()</code> and form-level messages.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Use the mock server error button.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="localization.html">
+              <span class="badge badge--green">Locales</span>
+              <h3>Localization</h3>
+              <p>Compare English fallback, imported locale JSON, and inline locale messages.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Keeping non-English copy out of the main bundle.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Submit each empty form and compare the generated messages.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="dynamic-locale.html">
+              <span class="badge badge--amber">Lifecycle</span>
+              <h3>Dynamic Locale</h3>
+              <p>Destroy and reinitialize the validator to swap runtime locale packs and regenerate errors.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd><code>destroy()</code>, locale options, and generated DOM cleanup.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Validate the empty form, switch languages, then destroy and reinitialize.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="notes-title">
+          <div class="section__header">
+            <p class="eyebrow">Integration notes</p>
+            <h2 id="notes-title">A few boundaries to keep in mind</h2>
+          </div>
+          <ul class="plain-list">
+            <li>Run <code>npm run build</code> before opening local demos because they import from <code>dist</code>.</li>
+            <li>Bundler users should keep the normal package entry; direct browser users can import <code>dist/index.min.js</code> or <code>a11y-form-validator/min</code>.</li>
+            <li>Custom widgets need custom rules, a custom renderer, or extra integration code.</li>
+            <li>Async validation can return promises, but request cancellation belongs to the application.</li>
+            <li>Final product forms should still be tested with target browsers and assistive technologies.</li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

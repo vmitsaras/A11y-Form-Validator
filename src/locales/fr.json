@@ -1,0 +1,13 @@
+{
+  "required": "Ce champ est obligatoire.",
+  "email": "Saisissez une adresse e-mail valide.",
+  "minLength": "Saisissez au moins {min} caractères.",
+  "maxLength": "Saisissez au maximum {max} caractères.",
+  "pattern": "Saisissez une valeur au bon format.",
+  "checked": "Sélectionnez cette option pour continuer.",
+  "sameAs": "Cette valeur doit correspondre à {targetLabel}.",
+  "summaryTitleOne": "Il y a 1 problème dans votre formulaire.",
+  "summaryTitleOther": "Il y a {count} problèmes dans votre formulaire.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Vérifiez ce champ."
+}

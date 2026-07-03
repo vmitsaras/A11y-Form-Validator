@@ -1,0 +1,95 @@
+{
+  "name": "a11y-form-validator",
+  "version": "1.0.0",
+  "description": "Accessible, dependency-light form validation plugin for semantic HTML forms",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./min": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.min.js"
+    },
+    "./docs": {
+      "types": "./dist/docs.d.ts",
+      "import": "./dist/docs.js"
+    },
+    "./addons/error-summary": {
+      "types": "./dist/addons/error-summary.d.ts",
+      "import": "./dist/addons/error-summary.js"
+    },
+    "./addons/character-count": {
+      "types": "./dist/addons/character-count.d.ts",
+      "import": "./dist/addons/character-count.js"
+    },
+    "./presets/default": {
+      "types": "./dist/presets/default.d.ts",
+      "import": "./dist/presets/default.js"
+    },
+    "./presets/no-summary": {
+      "types": "./dist/presets/no-summary.d.ts",
+      "import": "./dist/presets/no-summary.js"
+    },
+    "./presets/minimal": {
+      "types": "./dist/presets/minimal.d.ts",
+      "import": "./dist/presets/minimal.js"
+    },
+    "./locales/*.json": "./dist/locales/*.json",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "copy:assets": "node scripts/copy-assets.mjs",
+    "build:esm": "tsdown --config tsdown.config.ts",
+    "build:min": "tsdown --config tsdown.min.config.ts",
+    "build:dist": "npm run clean && npm run build:esm && npm run build:min && npm run copy:assets",
+    "build": "npm run pages:build",
+    "pages:build": "npm run build:dist && npm run pages:generate",
+    "pages:generate": "node scripts/build-pages.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "pack:check": "npm pack --dry-run --cache ./.npm-cache",
+    "prepack": "npm run build",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "npm run test && npm run typecheck && npm run build && changeset publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmitsaras/A11y-Form-Validator.git"
+  },
+  "keywords": [
+    "accessibility",
+    "forms",
+    "validation",
+    "a11y"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vmitsaras/A11y-Form-Validator/issues"
+  },
+  "homepage": "https://github.com/vmitsaras/A11y-Form-Validator#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "@types/jsdom": "^27.0.0",
+    "jsdom": "^29.1.1",
+    "tsdown": "^0.15.8",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
+  }
+}

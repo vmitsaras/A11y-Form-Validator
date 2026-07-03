@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Remote Validation - A11y Form Validator demo</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Async demo</p>
+          <h1 id="demo-title">Remote Validation</h1>
+          <p>Username availability checked with an async custom rule and debounced input validation.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <form id="remote-form">
+      <label for="username">Username</label>
+      <input id="username" name="username" required data-validate="available-username" />
+      <button type="submit">Save</button>
+        </form>
+
+        <section class="section section--compact" aria-labelledby="remote-developer-title">
+          <div class="section__header">
+            <h2 id="remote-developer-title">Developer notes</h2>
+            <p>Async rules can validate remote conditions while input validation is debounced to avoid noisy checks.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="remote-field-title">
+              <h3 id="remote-field-title">Async field</h3>
+              <pre><code>&lt;input
+  id="username"
+  name="username"
+  required
+  data-validate="available-username"
+/&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="remote-rule-title">
+              <h3 id="remote-rule-title">Debounced rule</h3>
+              <pre><code>const validator = new A11yFormValidator(form, {
+  ...createDefaultPreset(),
+  validateOn: ["submit", "blur", "input"],
+  debounce: 250
+});
+
+validator.registerRule("availableUsername", async ({ value }) =&gt; {
+  await new Promise((resolve) =&gt; setTimeout(resolve, 150));
+  return {
+    valid: !taken.has(String(value).trim().toLowerCase()),
+    message: "That username is already taken."
+  };
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { A11yFormValidator } from '../dist/index.js';
+      import { createDefaultPreset } from '../dist/presets/default.js';
+      const taken = new Set(['admin', 'editor']);
+      const validator = new A11yFormValidator(document.getElementById('remote-form'), {
+        ...createDefaultPreset(),
+        validateOn: ['submit', 'blur', 'input'],
+        debounce: 250
+      });
+
+      validator.registerRule('availableUsername', async ({ value }) => {
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        return { valid: !taken.has(String(value).trim().toLowerCase()), message: 'That username is already taken.' };
+      });
+    </script>
+  </body>
+</html>

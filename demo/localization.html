@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Localization - A11y Form Validator demo</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Locale demo</p>
+          <h1 id="demo-title">Localization</h1>
+          <p>English stays in the main bundle. Other messages are opt-in JSON or inline objects passed during initialization.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="try-title">
+          <div class="section__header">
+            <h2 id="try-title">Try it</h2>
+            <p>Submit each empty form. Then enter an invalid email address and submit again to compare rule messages.</p>
+          </div>
+
+          <div class="locale-demo-grid">
+            <article class="locale-demo-card" aria-labelledby="english-title">
+              <h3 id="english-title">English default</h3>
+              <p>No locale option is configured, so bundled English fallback text is used.</p>
+              <form id="english-locale-form" lang="en" novalidate>
+                <label for="english-email">Email</label>
+                <input id="english-email" name="email" type="email" required />
+
+                <button type="submit">Check English form</button>
+              </form>
+            </article>
+
+            <article class="locale-demo-card" aria-labelledby="imported-title">
+              <h3 id="imported-title">Imported JSON</h3>
+              <p>The Spanish pack is imported from <code>../dist/locales/es.json</code> and registered as <code>es</code>.</p>
+              <form id="spanish-locale-form" lang="es" novalidate>
+                <label for="spanish-email">Correo electronico</label>
+                <input id="spanish-email" name="email" type="email" required />
+
+                <button type="submit">Validar formulario</button>
+              </form>
+            </article>
+
+            <article class="locale-demo-card" aria-labelledby="inline-title">
+              <h3 id="inline-title">Inline messages</h3>
+              <p>A small product-specific locale object is passed directly in the initialization options.</p>
+              <form id="inline-locale-form" lang="product" novalidate>
+                <label for="inline-email">Work email</label>
+                <input id="inline-email" name="email" type="email" required />
+
+                <button type="submit">Check inline form</button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="developer-title">
+          <div class="section__header">
+            <h2 id="developer-title">Developer notes</h2>
+            <p>Locale lookup checks the explicit option first, then form or document language, then English. Field data messages and field-level message options still win over locale packs.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="json-title">
+              <h3 id="json-title">Imported JSON</h3>
+              <pre><code>import esMessages from "../dist/locales/es.json" with { type: "json" };
+
+createFormValidator(form, {
+  ...createDefaultPreset(),
+  locale: "es",
+  locales: { es: esMessages }
+});</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="inline-code-title">
+              <h3 id="inline-code-title">Inline JSON</h3>
+              <pre><code>createFormValidator(form, {
+  ...createDefaultPreset(),
+  locale: "product",
+  locales: {
+    product: {
+      required: "{fieldLabel} is required.",
+      email: "Use a valid work email address."
+    }
+  }
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { createFormValidator } from "../dist/index.js";
+      import esMessages from "../dist/locales/es.json" with { type: "json" };
+      import { createDefaultPreset } from "../dist/presets/default.js";
+
+      const inlineMessages = {
+        required: "{fieldLabel} is required before your team can continue.",
+        email: "Use a valid work email address.",
+        summaryTitleOne: "There is 1 product setup issue.",
+        summaryTitleOther: "There are {count} product setup issues.",
+        genericFallback: "Review this product field."
+      };
+
+      const setups = [
+        ["english-locale-form", {}],
+        ["spanish-locale-form", { locale: "es", locales: { es: esMessages } }],
+        ["inline-locale-form", { locale: "product", locales: { product: inlineMessages } }]
+      ];
+
+      setups.forEach(([id, options]) => {
+        const form = document.getElementById(id);
+        if (form instanceof HTMLFormElement) {
+          createFormValidator(form, {
+            ...createDefaultPreset(),
+            ...options
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

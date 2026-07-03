@@ -1,0 +1,13 @@
+{
+  "required": "This field is required.",
+  "email": "Enter a valid email address.",
+  "minLength": "Enter at least {min} characters.",
+  "maxLength": "Enter no more than {max} characters.",
+  "pattern": "Enter a value in the correct format.",
+  "checked": "Select this option to continue.",
+  "sameAs": "This value must match {targetLabel}.",
+  "summaryTitleOne": "There is 1 problem with your form.",
+  "summaryTitleOther": "There are {count} problems with your form.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Check this field."
+}

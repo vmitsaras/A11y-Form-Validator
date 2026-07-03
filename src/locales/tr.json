@@ -1,0 +1,13 @@
+{
+  "required": "Bu alan zorunludur.",
+  "email": "Geçerli bir e-posta adresi girin.",
+  "minLength": "En az {min} karakter girin.",
+  "maxLength": "En fazla {max} karakter girin.",
+  "pattern": "Doğru biçimde bir değer girin.",
+  "checked": "Devam etmek için bu seçeneği işaretleyin.",
+  "sameAs": "Bu değer {targetLabel} ile eşleşmelidir.",
+  "summaryTitleOne": "Formunuzda 1 sorun var.",
+  "summaryTitleOther": "Formunuzda {count} sorun var.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Bu alanı kontrol edin."
+}

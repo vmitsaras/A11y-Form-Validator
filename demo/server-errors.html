@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Server Errors - A11y Form Validator demo</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Server demo</p>
+          <h1 id="demo-title">Server Errors</h1>
+          <p>Apply server-provided field and form messages after a failed request.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <form id="server-form">
+      <label for="server-email">Email</label>
+      <input id="server-email" name="email" type="email" required />
+
+      <label for="server-password">Password</label>
+      <input id="server-password" name="password" type="password" required />
+
+      <button type="submit">Sign in</button>
+      <button type="button" id="mock-server">Mock server error</button>
+        </form>
+
+        <section class="section section--compact" aria-labelledby="server-developer-title">
+          <div class="section__header">
+            <h2 id="server-developer-title">Developer notes</h2>
+            <p>Server responses can add field-level and form-level errors after client-side validation has already run.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="server-response-title">
+              <h3 id="server-response-title">Server response shape</h3>
+              <pre><code>validator.setErrors({
+  email: "This email is already registered.",
+  form: "Your session expired. Reload the page."
+});</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="server-focus-title">
+              <h3 id="server-focus-title">Announce errors</h3>
+              <pre><code>document.getElementById("mock-server").addEventListener("click", () =&gt; {
+  validator.setErrors({
+    email: "This email is already registered.",
+    form: "Your session expired. Reload the page."
+  });
+  validator.focusOnError();
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { A11yFormValidator } from '../dist/index.js';
+      import { createDefaultPreset } from '../dist/presets/default.js';
+      const validator = new A11yFormValidator(document.getElementById('server-form'), createDefaultPreset());
+      document.getElementById('mock-server').addEventListener('click', () => {
+        validator.setErrors({
+          email: 'This email is already registered.',
+          form: 'Your session expired. Reload the page.'
+        });
+        validator.focusOnError();
+      });
+    </script>
+  </body>
+</html>

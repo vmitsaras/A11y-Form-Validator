@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout - A11y Form Validator demo</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Conditional demo</p>
+          <h1 id="demo-title">Checkout</h1>
+          <p>Conditional billing validation plus required shipping and payment method choices.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <form id="checkout-form">
+      <label for="shipping-address">Shipping address</label>
+      <input id="shipping-address" name="shippingAddress" required />
+
+      <label>
+        <input id="billing-toggle" name="useBilling" type="checkbox" />
+        Billing address is different
+      </label>
+
+      <label for="billing-address">Billing address</label>
+      <input id="billing-address" name="billingAddress" data-validate="billing-address" />
+
+      <fieldset>
+        <legend>Payment method</legend>
+        <label><input name="paymentMethod" type="radio" value="card" required /> Card</label>
+        <label><input name="paymentMethod" type="radio" value="invoice" required /> Invoice</label>
+      </fieldset>
+
+      <button type="submit">Pay now</button>
+        </form>
+
+        <section class="section section--compact" aria-labelledby="checkout-developer-title">
+          <div class="section__header">
+            <h2 id="checkout-developer-title">Developer notes</h2>
+            <p>The billing field is only required when another control makes that rule relevant.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="checkout-field-title">
+              <h3 id="checkout-field-title">Conditional field</h3>
+              <pre><code>&lt;input id="billing-toggle" name="useBilling" type="checkbox" /&gt;
+
+&lt;input
+  id="billing-address"
+  name="billingAddress"
+  data-validate="billing-address"
+/&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="checkout-rule-title">
+              <h3 id="checkout-rule-title">Registered rule</h3>
+              <pre><code>validator.registerRule("billingAddress", ({ form, value }) =&gt; {
+  const enabled = form.querySelector("#billing-toggle").checked;
+  return {
+    valid: !enabled || String(value).trim() !== "",
+    messageKey: "required"
+  };
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { A11yFormValidator } from '../dist/index.js';
+      import { createDefaultPreset } from '../dist/presets/default.js';
+
+      const validator = new A11yFormValidator(document.getElementById('checkout-form'), createDefaultPreset());
+      validator.registerRule('billingAddress', ({ form, value }) => {
+        const enabled = form.querySelector('#billing-toggle').checked;
+        return { valid: !enabled || String(value).trim() !== '', messageKey: 'required' };
+      });
+    </script>
+  </body>
+</html>

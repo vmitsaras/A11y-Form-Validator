@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Basic - A11y Form Validator demo</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Start here</p>
+          <h1 id="demo-title">Basic</h1>
+          <p>Semantic contact form with inline errors, a summary, grouped choices, and character count guidance.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <form id="contact-form" data-a11y-form-validator novalidate>
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" autocomplete="name" required data-message-required="Enter your name." />
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required minlength="10" maxlength="180" data-character-count></textarea>
+          </div>
+
+          <fieldset>
+            <legend>Preferred reply method</legend>
+            <label><input name="replyMethod" type="radio" value="email" required /> Email</label>
+            <label><input name="replyMethod" type="radio" value="phone" required /> Phone</label>
+          </fieldset>
+
+          <label>
+            <input name="terms" type="checkbox" required />
+            I agree to be contacted about this message.
+          </label>
+
+          <button type="submit">Send message</button>
+        </form>
+
+        <section class="section section--compact" aria-labelledby="basic-developer-title">
+          <div class="section__header">
+            <h2 id="basic-developer-title">Developer notes</h2>
+            <p>
+              This demo combines semantic HTML constraints with the default preset and character count addon.
+              It uses the readable <code>../dist/index.js</code> build; use the direct browser demo when you
+              want to inspect <code>../dist/index.min.js</code>.
+            </p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="basic-markup-title">
+              <h3 id="basic-markup-title">Semantic markup</h3>
+              <pre><code>&lt;form data-a11y-form-validator novalidate&gt;
+  &lt;input name="email" type="email" required /&gt;
+  &lt;textarea
+    name="message"
+    required
+    minlength="10"
+    maxlength="180"
+    data-character-count
+  &gt;&lt;/textarea&gt;
+&lt;/form&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="basic-setup-title">
+              <h3 id="basic-setup-title">Default setup</h3>
+              <pre><code>const preset = createDefaultPreset();
+createFormValidator(form, {
+  ...preset,
+  addons: [...preset.addons, createCharacterCountAddon()]
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      // For readable local demos, use ../dist/index.js.
+      // For direct production usage without a bundler, use ../dist/index.min.js.
+      import { createDefaultPreset, createFormValidator } from "../dist/index.js";
+      import { createCharacterCountAddon } from "../dist/addons/character-count.js";
+
+      const form = document.querySelector("[data-a11y-form-validator]");
+      if (form instanceof HTMLFormElement) {
+        const preset = createDefaultPreset();
+        createFormValidator(form, {
+          ...preset,
+          addons: [...preset.addons, createCharacterCountAddon()]
+        });
+      }
+    </script>
+  </body>
+</html>

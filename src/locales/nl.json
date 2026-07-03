@@ -1,0 +1,13 @@
+{
+  "required": "Dit veld is verplicht.",
+  "email": "Voer een geldig e-mailadres in.",
+  "minLength": "Voer minimaal {min} tekens in.",
+  "maxLength": "Voer maximaal {max} tekens in.",
+  "pattern": "Voer een waarde in het juiste formaat in.",
+  "checked": "Selecteer deze optie om door te gaan.",
+  "sameAs": "Deze waarde moet overeenkomen met {targetLabel}.",
+  "summaryTitleOne": "Er is 1 probleem met je formulier.",
+  "summaryTitleOther": "Er zijn {count} problemen met je formulier.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Controleer dit veld."
+}

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login / Register Switch - A11y Form Validator demo</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Real-world demo</p>
+          <h1 id="demo-title">Login / Register Switch</h1>
+          <p>Two auth forms share the same page, but only the visible form is active, validated, tabbable, and submitted.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="scenario-title">
+          <div class="section__header">
+            <h2 id="scenario-title">Scenario</h2>
+            <p>A product sign-in page lets existing members log in and new visitors register without navigating away. The app keeps both forms as real HTML, then hides and disables the inactive form so validation and focus stay scoped to the current task.</p>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="try-title">
+          <div class="section__header">
+            <h2 id="try-title">Try it</h2>
+          </div>
+          <ul class="plain-list">
+            <li>Submit the empty login form and follow the summary links back to each invalid field.</li>
+            <li>Use <strong>Register here</strong> to reveal the registration form and move focus to its heading.</li>
+            <li>Enter two different passwords in the registration form to trigger the cross-field confirmation rule.</li>
+            <li>Use <strong>Sign in instead</strong> and confirm the hidden registration fields are no longer in the Tab order.</li>
+          </ul>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="example-title">
+          <div class="section__header">
+            <h2 id="example-title">Example</h2>
+            <p>The inactive form is hidden and its controls are disabled. A polite status message announces mode changes without moving screen reader users away from the newly focused form heading.</p>
+          </div>
+
+          <p id="auth-demo-status" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">Login form is visible. Registration form is hidden.</p>
+
+          <div class="auth-demo">
+            <aside class="auth-demo__context" aria-labelledby="auth-context-title">
+              <p class="eyebrow">Auth flow</p>
+              <h3 id="auth-context-title">One page, one active task</h3>
+              <p>Use this pattern when a screen includes two related forms but users should only complete one at a time.</p>
+              <ol class="auth-demo__steps">
+                <li><span>1</span> Keep each form semantic and independently valid.</li>
+                <li><span>2</span> Hide and disable the inactive form.</li>
+                <li><span>3</span> Clear inactive errors when the mode changes.</li>
+              </ol>
+            </aside>
+
+            <div class="auth-demo__forms">
+              <section id="login-panel" class="auth-demo__panel" aria-labelledby="login-title">
+                <form id="login-form" data-a11y-form-validator>
+                  <div class="auth-demo__form-heading">
+                    <p class="eyebrow">Existing member</p>
+                    <h3 id="login-title" tabindex="-1">Sign in to your workspace</h3>
+                    <p class="auth-demo__hint">Use the email and password for an existing account.</p>
+                  </div>
+
+                  <div>
+                    <label for="login-email">Email</label>
+                    <input id="login-email" name="email" type="email" autocomplete="username" required data-message-required="Enter the email for your account." />
+                  </div>
+
+                  <div>
+                    <label for="login-password">Password</label>
+                    <input id="login-password" name="password" type="password" autocomplete="current-password" required minlength="8" />
+                  </div>
+
+                  <label class="auth-demo__inline">
+                    <input id="remember-account" name="rememberAccount" type="checkbox" />
+                    <span>Remember this account on this device</span>
+                  </label>
+
+                  <div class="auth-demo__actions">
+                    <button type="submit">Sign in</button>
+                    <p class="auth-demo__switch">Not registered yet? <button type="button" data-auth-mode-target="register" aria-controls="register-panel">Register here</button></p>
+                  </div>
+                </form>
+              </section>
+
+              <section id="register-panel" class="auth-demo__panel" aria-labelledby="register-title" hidden>
+                <form id="register-form" data-a11y-form-validator>
+                  <div class="auth-demo__form-heading">
+                    <p class="eyebrow">New member</p>
+                    <h3 id="register-title" tabindex="-1">Create your account</h3>
+                    <p class="auth-demo__hint">Use a valid email, a strong password, and matching confirmation before continuing.</p>
+                  </div>
+
+                  <div>
+                    <label for="register-name">Full name</label>
+                    <input id="register-name" name="fullName" autocomplete="name" required disabled />
+                  </div>
+
+                  <div>
+                    <label for="register-email">Email</label>
+                    <input id="register-email" name="email" type="email" autocomplete="email" required disabled />
+                  </div>
+
+                  <div>
+                    <label for="register-password">Password</label>
+                    <input id="register-password" name="password" type="password" autocomplete="new-password" required minlength="8" disabled />
+                  </div>
+
+                  <div>
+                    <label for="register-confirm-password">Confirm password</label>
+                    <input id="register-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required data-validate="same-as" data-same-as="#register-password" disabled />
+                  </div>
+
+                  <label class="auth-demo__inline">
+                    <input id="register-terms" name="terms" type="checkbox" required disabled />
+                    <span>I agree to the workspace terms</span>
+                  </label>
+
+                  <div class="auth-demo__actions">
+                    <button type="submit" disabled>Create account</button>
+                    <p class="auth-demo__switch">Already have an account? <button type="button" data-auth-mode-target="login" aria-controls="login-panel" disabled>Sign in instead</button></p>
+                  </div>
+                </form>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="a11y-title">
+          <div class="section__header">
+            <h2 id="a11y-title">Accessibility notes</h2>
+          </div>
+          <ul class="plain-list">
+            <li>Both forms use native labels, inputs, checkboxes, and submit buttons before JavaScript enhances validation.</li>
+            <li>The inactive panel uses <code>hidden</code>, and its form controls are disabled so they are not tabbable, submitted, or validated.</li>
+            <li>Mode changes clear errors from the form being hidden and move focus to the heading of the newly visible form.</li>
+            <li>The hidden live status announces whether login or registration is visible without adding extra visual noise.</li>
+            <li>The registration form demonstrates a cross-field <code>same-as</code> password confirmation rule with custom error copy.</li>
+            <li>Keyboard behavior remains native: Tab moves through the visible form and summary links, Enter submits, and Space toggles checkboxes.</li>
+            <li>The shared demo CSS keeps motion minimal and respects reduced-motion preferences.</li>
+          </ul>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="developer-title">
+          <div class="section__header">
+            <h2 id="developer-title">Developer notes</h2>
+            <p>Initialize each form separately. When the mode changes, keep the inactive form in the DOM but clear its errors and disable its controls.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="auth-setup-title">
+              <h3 id="auth-setup-title">Two validator instances</h3>
+              <pre><code>import { createFormValidator } from "../dist/index.js";
+import { createDefaultPreset } from "../dist/presets/default.js";
+
+const loginValidator = createFormValidator(loginForm, createDefaultPreset());
+const registerValidator = createFormValidator(registerForm, {
+  ...createDefaultPreset(),
+  messages: {
+    sameAs: "Use the same password in both fields."
+  }
+});</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="auth-switch-title">
+              <h3 id="auth-switch-title">Switch active form</h3>
+              <pre><code>inactiveValidator.clearErrors();
+inactivePanel.hidden = true;
+
+for (const control of inactiveForm.elements) {
+  control.disabled = true;
+}
+
+activePanel.hidden = false;
+activeHeading.focus();</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { createFormValidator } from "../dist/index.js";
+      import { createDefaultPreset } from "../dist/presets/default.js";
+
+      const loginForm = document.getElementById("login-form");
+      const registerForm = document.getElementById("register-form");
+      const loginPanel = document.getElementById("login-panel");
+      const registerPanel = document.getElementById("register-panel");
+      const loginTitle = document.getElementById("login-title");
+      const registerTitle = document.getElementById("register-title");
+      const status = document.getElementById("auth-demo-status");
+      const switchButtons = document.querySelectorAll("[data-auth-mode-target]");
+
+      if (
+        loginForm instanceof HTMLFormElement &&
+        registerForm instanceof HTMLFormElement &&
+        loginPanel instanceof HTMLElement &&
+        registerPanel instanceof HTMLElement &&
+        loginTitle instanceof HTMLElement &&
+        registerTitle instanceof HTMLElement &&
+        status instanceof HTMLElement
+      ) {
+        const forms = {
+          login: loginForm,
+          register: registerForm
+        };
+        const panels = {
+          login: loginPanel,
+          register: registerPanel
+        };
+        const titles = {
+          login: loginTitle,
+          register: registerTitle
+        };
+        const validators = {
+          login: createFormValidator(loginForm, createDefaultPreset()),
+          register: createFormValidator(registerForm, {
+            ...createDefaultPreset(),
+            messages: {
+              sameAs: "Use the same password in both fields."
+            }
+          })
+        };
+        const modeLabels = {
+          login: "Login",
+          register: "Registration"
+        };
+        let activeMode = "login";
+
+        function getInactiveMode(mode) {
+          return mode === "login" ? "register" : "login";
+        }
+
+        function setFormDisabled(form, disabled) {
+          for (const control of Array.from(form.elements)) {
+            if ("disabled" in control) {
+              control.disabled = disabled;
+            }
+          }
+        }
+
+        function setMode(mode, options = {}) {
+          const inactiveMode = getInactiveMode(mode);
+
+          validators[inactiveMode].clearErrors();
+          setFormDisabled(forms[inactiveMode], true);
+          panels[inactiveMode].hidden = true;
+
+          panels[mode].hidden = false;
+          setFormDisabled(forms[mode], false);
+          validators[mode].refresh();
+
+          activeMode = mode;
+          status.textContent = mode === "login"
+            ? "Login form is visible. Registration form is hidden."
+            : "Registration form is visible. Login form is hidden.";
+
+          if (options.focus !== false) {
+            titles[mode].focus({ preventScroll: true });
+          }
+        }
+
+        for (const button of switchButtons) {
+          button.addEventListener("click", () => {
+            const mode = button.getAttribute("data-auth-mode-target");
+            if (mode === "login" || mode === "register") {
+              setMode(mode);
+            }
+          });
+        }
+
+        for (const mode of Object.keys(forms)) {
+          const form = forms[mode];
+
+          form.addEventListener("submit", (event) => {
+            event.preventDefault();
+          }, { capture: true });
+
+          form.addEventListener("a11y-form-validator:form-valid", () => {
+            if (mode === activeMode) {
+              status.textContent = `${modeLabels[mode]} passed client-side validation. Demo submit prevented; no request was sent.`;
+            }
+          });
+        }
+
+        setMode("login", { focus: false });
+      }
+    </script>
+  </body>
+</html>

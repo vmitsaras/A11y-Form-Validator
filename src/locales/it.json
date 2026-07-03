@@ -1,0 +1,13 @@
+{
+  "required": "Questo campo è obbligatorio.",
+  "email": "Inserisci un indirizzo email valido.",
+  "minLength": "Inserisci almeno {min} caratteri.",
+  "maxLength": "Inserisci al massimo {max} caratteri.",
+  "pattern": "Inserisci un valore nel formato corretto.",
+  "checked": "Seleziona questa opzione per continuare.",
+  "sameAs": "Questo valore deve corrispondere a {targetLabel}.",
+  "summaryTitleOne": "C'è 1 problema nel modulo.",
+  "summaryTitleOther": "Ci sono {count} problemi nel modulo.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Controlla questo campo."
+}

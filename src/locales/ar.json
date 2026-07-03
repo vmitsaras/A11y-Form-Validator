@@ -1,0 +1,13 @@
+{
+  "required": "هذا الحقل مطلوب.",
+  "email": "أدخل عنوان بريد إلكتروني صالحًا.",
+  "minLength": "أدخل {min} أحرف على الأقل.",
+  "maxLength": "أدخل {max} حرفًا كحد أقصى.",
+  "pattern": "أدخل قيمة بالتنسيق الصحيح.",
+  "checked": "حدد هذا الخيار للمتابعة.",
+  "sameAs": "يجب أن تتطابق هذه القيمة مع {targetLabel}.",
+  "summaryTitleOne": "توجد مشكلة واحدة في النموذج.",
+  "summaryTitleOther": "توجد {count} مشكلات في النموذج.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "تحقق من هذا الحقل."
+}

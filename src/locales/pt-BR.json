@@ -1,0 +1,13 @@
+{
+  "required": "Este campo é obrigatório.",
+  "email": "Digite um endereço de e-mail válido.",
+  "minLength": "Digite pelo menos {min} caracteres.",
+  "maxLength": "Digite no máximo {max} caracteres.",
+  "pattern": "Digite um valor no formato correto.",
+  "checked": "Selecione esta opção para continuar.",
+  "sameAs": "Este valor deve corresponder a {targetLabel}.",
+  "summaryTitleOne": "Há 1 problema no seu formulário.",
+  "summaryTitleOther": "Há {count} problemas no seu formulário.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Verifique este campo."
+}
