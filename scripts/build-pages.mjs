@@ -130,7 +130,12 @@ async function writePagesSupportFiles() {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Page not found | A11y Form Validator</title>
+    <title>Page Not Found | A11y Form Validator</title>
+    <meta
+      name="description"
+      content="The A11y Form Validator demo page you requested could not be found. Return to the demo gallery for working examples."
+    />
+    <meta name="robots" content="noindex,follow" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./dist/styles.css" />
   </head>
