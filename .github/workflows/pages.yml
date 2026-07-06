@@ -9,6 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  administration: write
 
 concurrency:
   group: "pages"
@@ -28,9 +29,17 @@ jobs:
           cache: npm
 
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v6
-        with:
-          enablement: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Ensure Pages is set to deploy from GitHub Actions workflows.
+          # PUT updates an existing site; if Pages does not exist yet, POST creates it.
+          gh api "repos/${{ github.repository }}/pages" \
+            --method PUT \
+            --field build_type=workflow \
+          || gh api "repos/${{ github.repository }}/pages" \
+            --method POST \
+            --field build_type=workflow
 
       - name: Install dependencies
         run: npm ci
