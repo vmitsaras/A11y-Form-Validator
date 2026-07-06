@@ -1,6 +1,6 @@
 {
   "name": "a11y-form-validator",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Accessible, dependency-light form validation plugin for semantic HTML forms",
   "type": "module",
   "main": "./dist/index.js",
