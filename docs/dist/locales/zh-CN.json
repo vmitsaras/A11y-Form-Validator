@@ -1,0 +1,13 @@
+{
+  "required": "此字段为必填项。",
+  "email": "请输入有效的电子邮件地址。",
+  "minLength": "请输入至少 {min} 个字符。",
+  "maxLength": "请输入不超过 {max} 个字符。",
+  "pattern": "请输入正确格式的值。",
+  "checked": "请选择此选项以继续。",
+  "sameAs": "此值必须与 {targetLabel} 匹配。",
+  "summaryTitleOne": "表单中有 1 个问题。",
+  "summaryTitleOther": "表单中有 {count} 个问题。",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "请检查此字段。"
+}

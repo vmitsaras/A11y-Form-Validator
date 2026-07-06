@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Error Summary Demo | A11y Form Validator</title>
+    <meta
+      name="description"
+      content="See how the error summary addon creates a focusable list of validation errors with links back to invalid form fields."
+    />
+    <link rel="canonical" href="https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Error Summary Demo | A11y Form Validator" />
+    <meta
+      property="og:description"
+      content="See how the error summary addon creates a focusable list of validation errors with links back to invalid form fields."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html" />
+    <meta property="og:site_name" content="A11y Form Validator" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Error Summary Demo | A11y Form Validator" />
+    <meta
+      name="twitter:description"
+      content="See how the error summary addon creates a focusable list of validation errors with links back to invalid form fields."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html#webpage",
+            "url": "https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html",
+            "name": "Error Summary Demo | A11y Form Validator",
+            "headline": "Error Summary",
+            "description": "See how the error summary addon creates a focusable list of validation errors with links back to invalid form fields.",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#webpage"
+            },
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html#software",
+            "name": "A11y Form Validator",
+            "alternateName": "a11y-form-validator",
+            "description": "Accessible, dependency-light form validation plugin for semantic HTML forms.",
+            "codeRepository": "https://github.com/vmitsaras/A11y-Form-Validator",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "https://github.com/vmitsaras/A11y-Form-Validator/blob/main/LICENSE",
+            "keywords": [
+              "accessibility",
+              "forms",
+              "validation",
+              "a11y"
+            ],
+            "creator": {
+              "@id": "https://github.com/vmitsaras#person"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/A11y-Form-Validator",
+              "https://www.npmjs.com/package/a11y-form-validator"
+            ],
+            "featureList": [
+              "Native HTML constraint validation support",
+              "Custom validation rules and field-specific messages",
+              "Accessible inline error messages",
+              "Focusable error summary",
+              "Character count addon",
+              "Server error rendering",
+              "Async custom validation",
+              "Locale message packs",
+              "Destroy and cleanup lifecycle"
+            ],
+            "accessibilityFeature": [
+              "Inline errors associated with aria-describedby and aria-errormessage",
+              "Polite live-region error announcements",
+              "Focusable error summary links",
+              "Native keyboard behavior for form controls"
+            ],
+            "targetProduct": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html#application"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/error-summary.html#application",
+            "name": "A11y Form Validator",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "runtimePlatform": "Browser",
+            "softwareVersion": "1.0.0",
+            "installUrl": "https://www.npmjs.com/package/a11y-form-validator"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://github.com/vmitsaras#person",
+            "name": "Vasileios Mistaras",
+            "url": "https://github.com/vmitsaras"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="./dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Summary demo</p>
+          <h1 id="demo-title">Error Summary</h1>
+          <p>Focusable summary region with field-labelled links that send users back to invalid fields.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <form id="summary-form">
+      <label for="full-name">Full name</label>
+      <input id="full-name" name="fullName" required />
+
+      <label for="summary-email">Email</label>
+      <input id="summary-email" name="email" type="email" required />
+
+      <label for="postcode">Postcode</label>
+      <input id="postcode" name="postcode" required minlength="4" />
+
+      <button type="submit">Continue</button>
+        </form>
+
+        <section class="section section--compact" aria-labelledby="summary-developer-title">
+          <div class="section__header">
+            <h2 id="summary-developer-title">Developer notes</h2>
+            <p>This demo imports the error summary addon explicitly, then adds it to a preset that does not include summary UI by default.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="summary-fields-title">
+              <h3 id="summary-fields-title">Summary fields</h3>
+              <pre><code>&lt;form id="summary-form"&gt;
+  &lt;input name="fullName" required /&gt;
+  &lt;input name="email" type="email" required /&gt;
+  &lt;input name="postcode" required minlength="4" /&gt;
+&lt;/form&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="summary-preset-title">
+              <h3 id="summary-preset-title">Summary addon import</h3>
+              <pre><code>import { A11yFormValidator } from "./dist/index.js";
+import { createErrorSummaryAddon } from "./dist/addons/error-summary.js";
+import { createNoSummaryPreset } from "./dist/presets/no-summary.js";
+
+const form = document.getElementById("summary-form");
+
+new A11yFormValidator(form, {
+  ...createNoSummaryPreset(),
+  focusOnError: "summary",
+  addons: [createErrorSummaryAddon()]
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator" target="_blank" rel="noopener noreferrer">GitHub repository<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator" target="_blank" rel="noopener noreferrer">npm package<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme" target="_blank" rel="noopener noreferrer">Documentation<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { A11yFormValidator } from './dist/index.js';
+      import { createErrorSummaryAddon } from './dist/addons/error-summary.js';
+      import { createNoSummaryPreset } from './dist/presets/no-summary.js';
+
+      new A11yFormValidator(document.getElementById('summary-form'), {
+        ...createNoSummaryPreset(),
+        focusOnError: 'summary',
+        addons: [createErrorSummaryAddon()]
+      });
+    </script>
+  </body>
+</html>

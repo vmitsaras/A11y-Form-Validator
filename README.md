@@ -357,7 +357,7 @@ Repository demo source is also available on GitHub:
 
 Build the package with `npm run build` before opening local example or demo pages, because they import from `dist`. Most demos use the readable `dist/index.js`; the direct browser minified build demo uses `dist/index.min.js`.
 
-Build the GitHub Pages artifact with `npm run pages:build`. The generated static site is written to `pages-dist/` for the Pages workflow.
+Build the GitHub Pages branch-publishing output with `npm run pages:build`. The generated static site is written to `docs/` and should be committed with changes that affect the live demos.
 
 ### GitHub Pages demo build
 
@@ -367,7 +367,7 @@ Do not copy only `dist/index.js`. If `index.js` imports generated chunk files, t
 
 The minified demo uses `dist/index.min.js`, but the regular demos intentionally use `dist/index.js` to verify the normal package build.
 
-For first-time GitHub Pages deployment, enable GitHub Actions as the Pages source in the repository settings: Settings -> Pages -> Build and deployment -> Source -> GitHub Actions. The default workflow token cannot self-enable Pages through `actions/configure-pages`; after the setting exists, the workflow deploys `pages-dist/`.
+For first-time GitHub Pages deployment, use branch publishing in the repository settings: Settings -> Pages -> Build and deployment -> Source -> Deploy from a branch -> Branch: `main` -> Folder: `/docs`. After that setting is saved, pushes to `main` that include updated `docs/` files publish automatically.
 
 ## Docs Metadata
 

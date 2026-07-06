@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const demoDir = path.join(rootDir, 'demo');
 const distDir = path.join(rootDir, 'dist');
-const outputDir = path.join(rootDir, 'pages-dist');
+const outputDir = path.join(rootDir, 'docs');
 const outputDistDir = path.join(outputDir, 'dist');
 const readmeUrl = 'https://github.com/vmitsaras/A11y-Form-Validator#readme';
 const localJsImportPattern =

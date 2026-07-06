@@ -1,0 +1,13 @@
+{
+  "required": "To pole jest wymagane.",
+  "email": "Wpisz prawidłowy adres e-mail.",
+  "minLength": "Wpisz co najmniej {min} znaków.",
+  "maxLength": "Wpisz maksymalnie {max} znaków.",
+  "pattern": "Wpisz wartość w prawidłowym formacie.",
+  "checked": "Zaznacz tę opcję, aby kontynuować.",
+  "sameAs": "Ta wartość musi być zgodna z {targetLabel}.",
+  "summaryTitleOne": "W formularzu jest 1 problem.",
+  "summaryTitleOther": "Formularz zawiera {count} problemów.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Sprawdź to pole."
+}

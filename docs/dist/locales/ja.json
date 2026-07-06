@@ -1,0 +1,13 @@
+{
+  "required": "この項目は必須です。",
+  "email": "有効なメールアドレスを入力してください。",
+  "minLength": "{min}文字以上で入力してください。",
+  "maxLength": "{max}文字以内で入力してください。",
+  "pattern": "正しい形式で入力してください。",
+  "checked": "続行するにはこの項目を選択してください。",
+  "sameAs": "この値は {targetLabel} と一致する必要があります。",
+  "summaryTitleOne": "フォームに1件の問題があります。",
+  "summaryTitleOther": "フォームに{count}件の問題があります。",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "この項目を確認してください。"
+}

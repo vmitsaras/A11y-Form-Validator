@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Direct Browser Minified Build Demo | A11y Form Validator</title>
+    <meta
+      name="description"
+      content="Import the optional minified ESM build directly in the browser and test a static-site form validation setup."
+    />
+    <link rel="canonical" href="https://vmitsaras.github.io/A11y-Form-Validator/minified.html" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Direct Browser Minified Build Demo | A11y Form Validator" />
+    <meta
+      property="og:description"
+      content="Import the optional minified ESM build directly in the browser and test a static-site form validation setup."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vmitsaras.github.io/A11y-Form-Validator/minified.html" />
+    <meta property="og:site_name" content="A11y Form Validator" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Direct Browser Minified Build Demo | A11y Form Validator" />
+    <meta
+      name="twitter:description"
+      content="Import the optional minified ESM build directly in the browser and test a static-site form validation setup."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/minified.html#webpage",
+            "url": "https://vmitsaras.github.io/A11y-Form-Validator/minified.html",
+            "name": "Direct Browser Minified Build Demo | A11y Form Validator",
+            "headline": "Minified build",
+            "description": "Import the optional minified ESM build directly in the browser and test a static-site form validation setup.",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#webpage"
+            },
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/minified.html#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/minified.html#software",
+            "name": "A11y Form Validator",
+            "alternateName": "a11y-form-validator",
+            "description": "Accessible, dependency-light form validation plugin for semantic HTML forms.",
+            "codeRepository": "https://github.com/vmitsaras/A11y-Form-Validator",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "https://github.com/vmitsaras/A11y-Form-Validator/blob/main/LICENSE",
+            "keywords": [
+              "accessibility",
+              "forms",
+              "validation",
+              "a11y"
+            ],
+            "creator": {
+              "@id": "https://github.com/vmitsaras#person"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/A11y-Form-Validator",
+              "https://www.npmjs.com/package/a11y-form-validator"
+            ],
+            "featureList": [
+              "Native HTML constraint validation support",
+              "Custom validation rules and field-specific messages",
+              "Accessible inline error messages",
+              "Focusable error summary",
+              "Character count addon",
+              "Server error rendering",
+              "Async custom validation",
+              "Locale message packs",
+              "Destroy and cleanup lifecycle"
+            ],
+            "accessibilityFeature": [
+              "Inline errors associated with aria-describedby and aria-errormessage",
+              "Polite live-region error announcements",
+              "Focusable error summary links",
+              "Native keyboard behavior for form controls"
+            ],
+            "targetProduct": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/minified.html#application"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/minified.html#application",
+            "name": "A11y Form Validator",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "runtimePlatform": "Browser",
+            "softwareVersion": "1.0.0",
+            "installUrl": "https://www.npmjs.com/package/a11y-form-validator"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://github.com/vmitsaras#person",
+            "name": "Vasileios Mistaras",
+            "url": "https://github.com/vmitsaras"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="./dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Direct browser</p>
+          <h1 id="demo-title">Minified build</h1>
+          <p>
+            This page imports the optional <code>./dist/index.min.js</code> ESM file directly.
+            Bundler users should keep importing from the normal package entry.
+          </p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <form id="minified-form" data-a11y-form-validator novalidate>
+          <div>
+            <label for="minified-email">Email</label>
+            <input id="minified-email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div>
+            <label for="minified-message">Message</label>
+            <textarea id="minified-message" name="message" required minlength="10"></textarea>
+          </div>
+
+          <fieldset>
+            <legend>Preferred reply method</legend>
+            <label><input name="replyMethod" type="radio" value="email" required /> Email</label>
+            <label><input name="replyMethod" type="radio" value="phone" required /> Phone</label>
+          </fieldset>
+
+          <button type="submit">Send message</button>
+        </form>
+
+        <section class="section section--compact" aria-labelledby="minified-notes-title">
+          <div class="section__header">
+            <h2 id="minified-notes-title">Import notes</h2>
+            <p>
+              The minified file is a direct-browser convenience entry. It is not the default package
+              export, and it keeps the same public runtime API as <code>dist/index.js</code>.
+            </p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="minified-browser-title">
+              <h3 id="minified-browser-title">Direct browser import</h3>
+              <pre><code>&lt;script type="module"&gt;
+  import {
+    createDefaultPreset,
+    createFormValidator
+  } from "./dist/index.min.js";
+
+  const form = document.querySelector(
+    "[data-a11y-form-validator]"
+  );
+
+  if (form instanceof HTMLFormElement) {
+    createFormValidator(form, createDefaultPreset());
+  }
+&lt;/script&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="minified-bundler-title">
+              <h3 id="minified-bundler-title">Bundler import stays normal</h3>
+              <pre><code>import {
+  createDefaultPreset,
+  createFormValidator
+} from "a11y-form-validator";
+
+import "a11y-form-validator/styles.css";</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator" target="_blank" rel="noopener noreferrer">GitHub repository<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator" target="_blank" rel="noopener noreferrer">npm package<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme" target="_blank" rel="noopener noreferrer">Documentation<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { createDefaultPreset, createFormValidator } from "./dist/index.min.js";
+
+      const form = document.querySelector("[data-a11y-form-validator]");
+      if (form instanceof HTMLFormElement) {
+        createFormValidator(form, createDefaultPreset());
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dynamic Locale Demo | A11y Form Validator</title>
+    <meta
+      name="description"
+      content="Destroy and reinitialize A11y Form Validator to swap locale messages and regenerate validation errors at runtime."
+    />
+    <link rel="canonical" href="https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Dynamic Locale Demo | A11y Form Validator" />
+    <meta
+      property="og:description"
+      content="Destroy and reinitialize A11y Form Validator to swap locale messages and regenerate validation errors at runtime."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html" />
+    <meta property="og:site_name" content="A11y Form Validator" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Dynamic Locale Demo | A11y Form Validator" />
+    <meta
+      name="twitter:description"
+      content="Destroy and reinitialize A11y Form Validator to swap locale messages and regenerate validation errors at runtime."
+    />
+    <link rel="icon" href="data:," />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html#webpage",
+            "url": "https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html",
+            "name": "Dynamic Locale Demo | A11y Form Validator",
+            "headline": "Dynamic Locale Reinitialization",
+            "description": "Destroy and reinitialize A11y Form Validator to swap locale messages and regenerate validation errors at runtime.",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#webpage"
+            },
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html#software",
+            "name": "A11y Form Validator",
+            "alternateName": "a11y-form-validator",
+            "description": "Accessible, dependency-light form validation plugin for semantic HTML forms.",
+            "codeRepository": "https://github.com/vmitsaras/A11y-Form-Validator",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "https://github.com/vmitsaras/A11y-Form-Validator/blob/main/LICENSE",
+            "keywords": [
+              "accessibility",
+              "forms",
+              "validation",
+              "a11y"
+            ],
+            "creator": {
+              "@id": "https://github.com/vmitsaras#person"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/A11y-Form-Validator",
+              "https://www.npmjs.com/package/a11y-form-validator"
+            ],
+            "featureList": [
+              "Native HTML constraint validation support",
+              "Custom validation rules and field-specific messages",
+              "Accessible inline error messages",
+              "Focusable error summary",
+              "Character count addon",
+              "Server error rendering",
+              "Async custom validation",
+              "Locale message packs",
+              "Destroy and cleanup lifecycle"
+            ],
+            "accessibilityFeature": [
+              "Inline errors associated with aria-describedby and aria-errormessage",
+              "Polite live-region error announcements",
+              "Focusable error summary links",
+              "Native keyboard behavior for form controls"
+            ],
+            "targetProduct": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html#application"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/dynamic-locale.html#application",
+            "name": "A11y Form Validator",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "runtimePlatform": "Browser",
+            "softwareVersion": "1.0.0",
+            "installUrl": "https://www.npmjs.com/package/a11y-form-validator"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://github.com/vmitsaras#person",
+            "name": "Vasileios Mistaras",
+            "url": "https://github.com/vmitsaras"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="./dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Lifecycle demo</p>
+          <h1 id="demo-title">Dynamic Locale Reinitialization</h1>
+          <p>Switch validation languages at runtime by destroying the current instance and reinitializing the form with a different locale pack.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="scenario-title">
+          <div class="section__header">
+            <h2 id="scenario-title">Scenario</h2>
+            <p>A support team tests the same event request form in multiple languages without reloading the page. The app keeps the form markup semantic, swaps localized labels, and recreates the validator so generated errors and summary text use the selected locale.</p>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="try-title">
+          <div class="section__header">
+            <h2 id="try-title">Try it</h2>
+          </div>
+          <ul class="plain-list">
+            <li>Use <strong>Validate form</strong> on the empty form to create inline errors and a focusable summary.</li>
+            <li>Change the language select to Spanish or French; the demo calls <code>destroy()</code>, reinitializes, and revalidates the current invalid state.</li>
+            <li>Use <strong>Destroy validator</strong> to remove generated errors, ARIA error state, summary UI, listeners, and plugin classes.</li>
+            <li>Use <strong>Reinitialize validator</strong>, then Tab through the form and follow the summary links back to invalid controls.</li>
+          </ul>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="example-title">
+          <div class="section__header">
+            <h2 id="example-title">Example</h2>
+            <p>The controls on the left are demo chrome. The form on the right is the plugin markup that an application would keep.</p>
+          </div>
+
+          <div class="demo-lifecycle">
+            <div class="demo-lifecycle__panel" aria-labelledby="controls-title">
+              <h3 id="controls-title">Lifecycle controls</h3>
+
+              <div class="demo-lifecycle__control">
+                <label for="locale-select">Error language</label>
+                <select id="locale-select">
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="fr">French</option>
+                </select>
+              </div>
+
+              <div class="demo-lifecycle__actions" aria-label="Validator actions">
+                <button type="button" id="validate-button">Validate form</button>
+                <button type="button" id="destroy-button" class="button--ghost">Destroy validator</button>
+                <button type="button" id="reinit-button" class="button--secondary">Reinitialize validator</button>
+              </div>
+
+              <div class="demo-lifecycle__status" aria-labelledby="status-title">
+                <h4 id="status-title">Current state</h4>
+                <dl>
+                  <div>
+                    <dt>Validator</dt>
+                    <dd id="instance-state">Initialized</dd>
+                  </div>
+                  <div>
+                    <dt>Locale</dt>
+                    <dd id="active-locale">English</dd>
+                  </div>
+                  <div>
+                    <dt>Field errors</dt>
+                    <dd id="error-count">0</dd>
+                  </div>
+                </dl>
+                <p id="lifecycle-status" role="status" aria-live="polite">Validator initialized with English messages.</p>
+              </div>
+            </div>
+
+            <form id="dynamic-locale-form" lang="en" novalidate>
+              <div>
+                <label for="dynamic-title" data-copy="titleLabel">Workshop title</label>
+                <input id="dynamic-title" name="title" required minlength="4" autocomplete="off" />
+              </div>
+
+              <div>
+                <label for="dynamic-email" data-copy="emailLabel">Organizer email</label>
+                <input id="dynamic-email" name="email" type="email" required autocomplete="email" />
+              </div>
+
+              <div>
+                <label for="dynamic-team" data-copy="teamLabel">Review team</label>
+                <select id="dynamic-team" name="team" required>
+                  <option value="" data-copy="teamPlaceholder">Choose a team</option>
+                  <option value="design" data-copy="teamDesign">Design systems</option>
+                  <option value="support" data-copy="teamSupport">Customer support</option>
+                  <option value="events" data-copy="teamEvents">Events</option>
+                </select>
+              </div>
+
+              <label>
+                <input id="dynamic-approval" name="approval" type="checkbox" required />
+                <span data-copy="approvalLabel">I reviewed the localized event copy</span>
+              </label>
+
+              <button type="submit" data-copy="submitLabel">Submit request</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="a11y-title">
+          <div class="section__header">
+            <h2 id="a11y-title">Accessibility notes</h2>
+          </div>
+          <ul class="plain-list">
+            <li>The demo keeps native labels, inputs, select, checkbox, and submit behavior in the form markup before JavaScript runs.</li>
+            <li>The language selector is a native select; changing it updates form copy, sets the form <code>lang</code>, destroys the current validator, and creates a new instance.</li>
+            <li>The lifecycle status uses <code>role="status"</code> so instance changes are announced politely without moving focus.</li>
+            <li>Inline errors remain connected to controls with generated ARIA attributes while the validator is active, and those attributes are removed on destroy.</li>
+            <li>Keyboard behavior stays native: Tab reaches controls and summary links, Enter submits the form, and Space toggles the checkbox.</li>
+            <li>The demo intentionally limits motion to small hover/focus transitions and respects reduced-motion preferences through the shared demo CSS.</li>
+          </ul>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="developer-title">
+          <div class="section__header">
+            <h2 id="developer-title">Developer notes</h2>
+            <p>Store the instance returned by <code>createFormValidator()</code>. When options such as <code>locale</code> and <code>locales</code> need to change, destroy the old instance before creating the next one.</p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="locale-code-title">
+              <h3 id="locale-code-title">Locale setup</h3>
+              <pre><code>import { createFormValidator } from "./dist/index.js";
+import esMessages from "./dist/locales/es.json" with { type: "json" };
+import frMessages from "./dist/locales/fr.json" with { type: "json" };
+import { createDefaultPreset } from "./dist/presets/default.js";
+
+const localePacks = {
+  es: esMessages,
+  fr: frMessages
+};</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="reinit-code-title">
+              <h3 id="reinit-code-title">Destroy and reinitialize</h3>
+              <pre><code>function initializeValidator(locale) {
+  validator?.destroy();
+  validator = createFormValidator(form, {
+    ...createDefaultPreset(),
+    locale,
+    locales: locale === "en" ? {} : { [locale]: localePacks[locale] }
+  });
+}</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator" target="_blank" rel="noopener noreferrer">GitHub repository<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator" target="_blank" rel="noopener noreferrer">npm package<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme" target="_blank" rel="noopener noreferrer">Documentation<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { createFormValidator } from "./dist/index.js";
+      import esMessages from "./dist/locales/es.json" with { type: "json" };
+      import frMessages from "./dist/locales/fr.json" with { type: "json" };
+      import { createDefaultPreset } from "./dist/presets/default.js";
+
+      const form = document.getElementById("dynamic-locale-form");
+      const localeSelect = document.getElementById("locale-select");
+      const validateButton = document.getElementById("validate-button");
+      const destroyButton = document.getElementById("destroy-button");
+      const reinitButton = document.getElementById("reinit-button");
+      const instanceState = document.getElementById("instance-state");
+      const activeLocale = document.getElementById("active-locale");
+      const errorCount = document.getElementById("error-count");
+      const lifecycleStatus = document.getElementById("lifecycle-status");
+
+      const localePacks = {
+        es: esMessages,
+        fr: frMessages
+      };
+
+      const localeCopy = {
+        en: {
+          label: "English",
+          titleLabel: "Workshop title",
+          emailLabel: "Organizer email",
+          teamLabel: "Review team",
+          teamPlaceholder: "Choose a team",
+          teamDesign: "Design systems",
+          teamSupport: "Customer support",
+          teamEvents: "Events",
+          approvalLabel: "I reviewed the localized event copy",
+          submitLabel: "Submit request"
+        },
+        es: {
+          label: "Spanish",
+          titleLabel: "Titulo del taller",
+          emailLabel: "Correo electronico del organizador",
+          teamLabel: "Equipo de revision",
+          teamPlaceholder: "Elige un equipo",
+          teamDesign: "Sistemas de diseno",
+          teamSupport: "Atencion al cliente",
+          teamEvents: "Eventos",
+          approvalLabel: "Revise el texto localizado del evento",
+          submitLabel: "Enviar solicitud"
+        },
+        fr: {
+          label: "French",
+          titleLabel: "Titre de l'atelier",
+          emailLabel: "E-mail du responsable",
+          teamLabel: "Equipe de revue",
+          teamPlaceholder: "Choisir une equipe",
+          teamDesign: "Systemes de design",
+          teamSupport: "Support client",
+          teamEvents: "Evenements",
+          approvalLabel: "J'ai relu le texte localise de l'evenement",
+          submitLabel: "Envoyer la demande"
+        }
+      };
+
+      let validator = null;
+      let hasValidated = false;
+
+      function getSelectedLocale() {
+        return localeSelect instanceof HTMLSelectElement ? localeSelect.value : "en";
+      }
+
+      function getErrorCount() {
+        if (!validator) {
+          return 0;
+        }
+
+        const errors = validator.getErrors();
+        return Object.keys(errors.fields).length + errors.form.length;
+      }
+
+      function updateStatus(message) {
+        const locale = getSelectedLocale();
+        const copy = localeCopy[locale] || localeCopy.en;
+
+        if (instanceState) {
+          instanceState.textContent = validator ? "Initialized" : "Destroyed";
+        }
+        if (activeLocale) {
+          activeLocale.textContent = copy.label;
+        }
+        if (errorCount) {
+          errorCount.textContent = String(getErrorCount());
+        }
+        if (lifecycleStatus) {
+          lifecycleStatus.textContent = message;
+        }
+      }
+
+      function updateFormCopy(locale) {
+        const copy = localeCopy[locale] || localeCopy.en;
+
+        form?.setAttribute("lang", locale);
+        document.querySelectorAll("[data-copy]").forEach((element) => {
+          const key = element.getAttribute("data-copy");
+          if (key && copy[key]) {
+            element.textContent = copy[key];
+          }
+        });
+      }
+
+      function createOptions(locale) {
+        return {
+          ...createDefaultPreset(),
+          locale,
+          locales: locale === "en" ? {} : { [locale]: localePacks[locale] }
+        };
+      }
+
+      async function validateCurrent({ focus = true, prefix = "" } = {}) {
+        if (!validator) {
+          updateStatus("The validator is destroyed. Reinitialize it before validating.");
+          return;
+        }
+
+        hasValidated = true;
+        const valid = await validator.validate({ reason: "manual" });
+        const copy = localeCopy[getSelectedLocale()] || localeCopy.en;
+        const outcome = valid
+          ? `${copy.label} validation passed.`
+          : `${copy.label} validation found ${getErrorCount()} field error${getErrorCount() === 1 ? "" : "s"}.`;
+
+        updateStatus(prefix ? `${prefix} ${outcome}` : outcome);
+
+        if (!valid && focus) {
+          validator.focusOnError();
+        }
+      }
+
+      function initializeValidator({ revalidate = false, prefix = "" } = {}) {
+        if (!(form instanceof HTMLFormElement)) {
+          return;
+        }
+
+        const locale = getSelectedLocale();
+        const copy = localeCopy[locale] || localeCopy.en;
+        const hadErrors = getErrorCount() > 0;
+
+        validator?.destroy();
+        updateFormCopy(locale);
+        validator = createFormValidator(form, createOptions(locale));
+        updateStatus(prefix || `Validator initialized with ${copy.label} messages.`);
+
+        if (revalidate || hadErrors) {
+          void validateCurrent({
+            focus: false,
+            prefix: `Switched to ${copy.label} and revalidated the current form.`
+          });
+        }
+      }
+
+      if (form instanceof HTMLFormElement) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          hasValidated = true;
+        });
+
+        form.addEventListener("a11y-form-validator:after-validate", () => {
+          updateStatus(lifecycleStatus?.textContent || "Validation state updated.");
+        });
+      }
+
+      localeSelect?.addEventListener("change", () => {
+        initializeValidator({
+          revalidate: hasValidated,
+          prefix: `Validator reinitialized for ${(localeCopy[getSelectedLocale()] || localeCopy.en).label}.`
+        });
+      });
+
+      validateButton?.addEventListener("click", () => {
+        void validateCurrent();
+      });
+
+      destroyButton?.addEventListener("click", () => {
+        if (!validator) {
+          updateStatus("The validator is already destroyed.");
+          return;
+        }
+
+        validator.destroy();
+        validator = null;
+        updateStatus("Validator destroyed. Generated errors, summary UI, listeners, classes, and ARIA error state were removed.");
+      });
+
+      reinitButton?.addEventListener("click", () => {
+        initializeValidator({
+          revalidate: hasValidated,
+          prefix: `Validator reinitialized for ${(localeCopy[getSelectedLocale()] || localeCopy.en).label}.`
+        });
+      });
+
+      initializeValidator();
+    </script>
+  </body>
+</html>

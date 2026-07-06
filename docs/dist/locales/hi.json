@@ -1,0 +1,13 @@
+{
+  "required": "यह फ़ील्ड आवश्यक है।",
+  "email": "एक मान्य ईमेल पता दर्ज करें।",
+  "minLength": "कम से कम {min} वर्ण दर्ज करें।",
+  "maxLength": "अधिकतम {max} वर्ण दर्ज करें।",
+  "pattern": "सही प्रारूप में मान दर्ज करें।",
+  "checked": "जारी रखने के लिए यह विकल्प चुनें।",
+  "sameAs": "यह मान {targetLabel} से मेल खाना चाहिए।",
+  "summaryTitleOne": "आपके फ़ॉर्म में 1 समस्या है।",
+  "summaryTitleOther": "आपके फ़ॉर्म में {count} समस्याएँ हैं।",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "इस फ़ील्ड की जाँच करें।"
+}

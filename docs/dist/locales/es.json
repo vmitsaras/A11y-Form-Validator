@@ -1,0 +1,13 @@
+{
+  "required": "Este campo es obligatorio.",
+  "email": "Introduce una dirección de correo electrónico válida.",
+  "minLength": "Introduce al menos {min} caracteres.",
+  "maxLength": "Introduce como máximo {max} caracteres.",
+  "pattern": "Introduce un valor con el formato correcto.",
+  "checked": "Selecciona esta opción para continuar.",
+  "sameAs": "Este valor debe coincidir con {targetLabel}.",
+  "summaryTitleOne": "Hay 1 problema con tu formulario.",
+  "summaryTitleOther": "Hay {count} problemas con tu formulario.",
+  "summaryItem": "{fieldLabel}: {message}",
+  "genericFallback": "Revisa este campo."
+}
