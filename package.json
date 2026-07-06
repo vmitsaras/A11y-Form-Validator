@@ -61,6 +61,7 @@
     "build": "npm run pages:build",
     "pages:build": "npm run build:dist && npm run pages:generate",
     "pages:generate": "node scripts/build-pages.mjs",
+    "jsonld:generate": "node scripts/generate-jsonld.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "pack:check": "npm pack --dry-run --cache ./.npm-cache",

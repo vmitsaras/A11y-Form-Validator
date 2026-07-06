@@ -348,6 +348,7 @@ Repository demo source is also available on GitHub:
 - [Registration demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/registration.html) - password confirmation with a custom `same-as` rule.
 - [Login / Register demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/login-register.html) - switch between auth forms while only the visible form is active and validated.
 - [Checkout demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/checkout.html) - conditional billing validation and grouped payment choices.
+- [Conditional Fields Integration demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/conditional-fields.html) - integration pattern for `a11y-conditional-fields`, visible-only required fields, validator refresh, and summary updates.
 - [Remote Validation demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/remote-validation.html) - async username availability checks and pending state review.
 - [Server Errors demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/server-errors.html) - backend field and form errors rendered with `setErrors()`.
 - [Localization demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/localization.html) - English fallback, imported locale JSON, and inline locale messages.

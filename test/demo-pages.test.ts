@@ -95,6 +95,70 @@ test('checkout demo conditional billingAddress rule triggers required message', 
   expect(error?.textContent).toMatch(/required/i);
 });
 
+test('conditional fields demo ignores hidden required fields and validates them when visible', async () => {
+  setupDom(`
+    <form id="conditional-fields-form">
+      <label for="requester-email">Requester email</label>
+      <input id="requester-email" name="requesterEmail" type="email" required />
+
+      <label for="workspace-slug">Workspace URL slug</label>
+      <input id="workspace-slug" name="workspaceSlug" required />
+
+      <label for="plan-type">Plan type</label>
+      <select id="plan-type" name="planType" required>
+        <option value="">Choose a plan</option>
+        <option value="pilot">Pilot</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
+
+      <section id="enterprise-billing" hidden>
+        <label for="billing-contact">Billing contact email</label>
+        <input id="billing-contact" name="billingContact" type="email" data-required-when-visible disabled />
+
+        <label for="purchase-order">Purchase order</label>
+        <input id="purchase-order" name="purchaseOrder" data-required-when-visible disabled />
+      </section>
+    </form>
+  `);
+
+  const form = document.getElementById('conditional-fields-form') as HTMLFormElement;
+  const validator = new A11yFormValidator(form, createDefaultPreset());
+  const section = document.getElementById('enterprise-billing') as HTMLElement;
+  const billingContact = document.getElementById('billing-contact') as HTMLInputElement;
+  const purchaseOrder = document.getElementById('purchase-order') as HTMLInputElement;
+
+  function setEnterpriseVisible(visible: boolean): void {
+    section.hidden = !visible;
+    for (const control of [billingContact, purchaseOrder]) {
+      control.disabled = !visible;
+      control.required = visible;
+    }
+    validator.refresh();
+  }
+
+  (document.getElementById('requester-email') as HTMLInputElement).value = 'access@example.com';
+  (document.getElementById('workspace-slug') as HTMLInputElement).value = 'customer-success';
+  (document.getElementById('plan-type') as HTMLSelectElement).value = 'pilot';
+
+  setEnterpriseVisible(false);
+  expect(await validator.validate({ reason: 'submit' })).toBe(true);
+
+  (document.getElementById('plan-type') as HTMLSelectElement).value = 'enterprise';
+  setEnterpriseVisible(true);
+  expect(await validator.validate({ reason: 'submit' })).toBe(false);
+  expect(document.getElementById('a11y-form-validator-error-conditional-fields-form-billingContact')).toBeTruthy();
+
+  billingContact.value = 'billing@example.com';
+  purchaseOrder.value = 'PO-4821';
+  expect(await validator.validate({ reason: 'submit' })).toBe(true);
+
+  billingContact.value = '';
+  purchaseOrder.value = '';
+  setEnterpriseVisible(false);
+  expect(await validator.validate({ reason: 'submit' })).toBe(true);
+  expect(document.getElementById('a11y-form-validator-error-conditional-fields-form-billingContact')).toBeNull();
+});
+
 test('remote validation demo async username availability rule', async () => {
   setupDom(`
     <form id="remote-form">

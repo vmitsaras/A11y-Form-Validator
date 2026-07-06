@@ -363,6 +363,17 @@ button[type='button']:hover {
   font-weight: 800;
 }
 
+.callout {
+  max-width: 48rem;
+  margin: 1rem 0 0;
+  border: 1px solid var(--border-soft);
+  border-left: 0.35rem solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: #123b2e;
+  padding: 1rem;
+}
+
 .section {
   padding: clamp(1.75rem, 5vw, 3.5rem) 0;
   border-top: 1px solid var(--border-soft);
@@ -826,6 +837,200 @@ pre code {
   color: var(--primary-hover);
 }
 
+.conditional-demo {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+}
+
+.conditional-demo__context,
+.conditional-form {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.conditional-demo__context {
+  padding: 1rem;
+}
+
+.conditional-demo__context h3 {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  line-height: 1.15;
+}
+
+.conditional-demo__context p:not(.eyebrow) {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+}
+
+.conditional-demo__metrics {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+}
+
+.conditional-demo__metrics div {
+  display: grid;
+  gap: 0.2rem;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 0.65rem;
+}
+
+.conditional-demo__metrics dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.conditional-demo__metrics dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.conditional-form {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.conditional-form__intro {
+  border-bottom: 1px solid var(--border-soft);
+  margin: -0.25rem -0.25rem 1rem;
+  padding: 0 0.25rem 1rem;
+}
+
+.conditional-form__intro p:last-child,
+.conditional-form__target p,
+.conditional-form__hint {
+  color: var(--muted);
+}
+
+.conditional-form__intro p:last-child,
+.conditional-form__hint {
+  margin: 0.35rem 0 0;
+}
+
+.conditional-form__tag {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.conditional-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.conditional-form__wide {
+  grid-column: 1 / -1;
+}
+
+.conditional-form__target {
+  margin-top: 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface-subtle);
+  padding: 1rem;
+}
+
+.conditional-form__target[hidden] {
+  display: none;
+}
+
+.conditional-form__target h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.conditional-form__choice {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface-subtle);
+  padding: 0.85rem;
+}
+
+.conditional-form__choice input {
+  flex: 0 0 auto;
+  margin-top: 0.25rem;
+}
+
+.conditional-form__choice span {
+  display: grid;
+  gap: 0.15rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.conditional-form__choice strong {
+  color: var(--text);
+}
+
+.conditional-form__status,
+.conditional-form__readout {
+  display: block;
+  width: 100%;
+  margin: 1rem 0 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: #123b2e;
+  font-weight: 700;
+  padding: 0.75rem 0.85rem;
+}
+
+.conditional-form__readout {
+  background: var(--surface-subtle);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.conditional-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.conditional-form__actions button {
+  margin: 0;
+}
+
+.conditional-form__actions button[type='button'] {
+  margin-left: 0;
+}
+
+.conditional-form__actions .button--secondary {
+  background: var(--accent);
+}
+
+.conditional-form__actions .button--secondary:hover {
+  background: #0f5f46;
+}
+
+.conditional-form__actions .button--ghost {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--primary);
+}
+
+.conditional-form__actions .button--ghost:hover {
+  border-color: rgba(11, 92, 173, 0.45);
+  background: var(--primary-soft);
+}
+
 .demo-card,
 .card {
   display: flex;
@@ -1080,6 +1285,7 @@ textarea {
   .hero,
   .demo-lifecycle,
   .auth-demo,
+  .conditional-demo,
   .code-grid,
   .api-grid,
   .note-grid {
@@ -1144,7 +1350,8 @@ textarea {
     flex-direction: column;
   }
 
-  .auth-demo__actions > button {
+  .auth-demo__actions > button,
+  .conditional-form__actions > button {
     width: 100%;
   }
 
@@ -1177,13 +1384,29 @@ textarea {
   .demo-footer__links {
     flex-direction: column;
   }
+
+  .conditional-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .conditional-form__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
 }
 
 @media (forced-colors: active) {
   .demo-lifecycle__panel,
   .demo-lifecycle__status,
   .auth-demo__context,
-  .auth-demo__panel form {
+  .auth-demo__panel form,
+  .conditional-demo__context,
+  .conditional-form,
+  .conditional-form__target,
+  .conditional-form__choice,
+  .conditional-form__status,
+  .conditional-form__readout,
+  .callout {
     border-color: CanvasText;
   }
 }

@@ -13,6 +13,7 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   clean: false,
+  hash: false,
   sourcemap: true,
   target: 'es2022',
   platform: 'neutral',

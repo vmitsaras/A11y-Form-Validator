@@ -24,6 +24,89 @@
       name="twitter:description"
       content="Explore A11y Form Validator demos, setup examples, API notes, accessibility behavior, and static integration patterns for semantic HTML forms."
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#webpage",
+            "url": "https://vmitsaras.github.io/A11y-Form-Validator/",
+            "name": "Accessible Form Validation Demos | A11y Form Validator",
+            "headline": "Accessible form validation that keeps your real form markup.",
+            "description": "Explore A11y Form Validator demos, setup examples, API notes, accessibility behavior, and static integration patterns for semantic HTML forms.",
+            "inLanguage": "en",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#software",
+            "name": "A11y Form Validator",
+            "alternateName": "a11y-form-validator",
+            "description": "Accessible, dependency-light form validation plugin for semantic HTML forms.",
+            "codeRepository": "https://github.com/vmitsaras/A11y-Form-Validator",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "https://github.com/vmitsaras/A11y-Form-Validator/blob/main/LICENSE",
+            "keywords": [
+              "accessibility",
+              "forms",
+              "validation",
+              "a11y"
+            ],
+            "creator": {
+              "@id": "https://github.com/vmitsaras#person"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/A11y-Form-Validator",
+              "https://www.npmjs.com/package/a11y-form-validator"
+            ],
+            "featureList": [
+              "Native HTML constraint validation support",
+              "Custom validation rules and field-specific messages",
+              "Accessible inline error messages",
+              "Focusable error summary",
+              "Character count addon",
+              "Server error rendering",
+              "Async custom validation",
+              "Locale message packs",
+              "Destroy and cleanup lifecycle"
+            ],
+            "accessibilityFeature": [
+              "Inline errors associated with aria-describedby and aria-errormessage",
+              "Polite live-region error announcements",
+              "Focusable error summary links",
+              "Native keyboard behavior for form controls"
+            ],
+            "targetProduct": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#application"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#application",
+            "name": "A11y Form Validator",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "runtimePlatform": "Browser",
+            "softwareVersion": "1.0.0",
+            "installUrl": "https://www.npmjs.com/package/a11y-form-validator"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://github.com/vmitsaras#person",
+            "name": "Vasileios Mistaras",
+            "url": "https://github.com/vmitsaras"
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="../dist/styles.css" />
   </head>
@@ -510,6 +593,23 @@
                 <div>
                   <dt>Try this</dt>
                   <dd>Check different billing, leave billing address empty, and submit.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
+            <a class="demo-card" href="conditional-fields.html">
+              <span class="badge badge--amber">Integration</span>
+              <h3>Conditional Fields</h3>
+              <p>Connect conditional sections with validation refresh, visible-only required fields, and summary updates.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Using a11y-conditional-fields with this validator.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Show Enterprise billing, submit empty, then hide it again.</dd>
                 </div>
               </dl>
               <span class="card-link">View demo</span>

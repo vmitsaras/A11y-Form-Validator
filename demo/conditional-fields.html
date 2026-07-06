@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conditional Fields Integration Demo | A11y Form Validator</title>
+    <meta
+      name="description"
+      content="Connect conditional sections to A11y Form Validator so hidden fields are disabled, visible fields validate, and summaries refresh after choices change."
+    />
+    <link rel="canonical" href="https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Conditional Fields Integration Demo | A11y Form Validator" />
+    <meta
+      property="og:description"
+      content="Connect conditional sections to A11y Form Validator so hidden fields are disabled, visible fields validate, and summaries refresh after choices change."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html" />
+    <meta property="og:site_name" content="A11y Form Validator" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Conditional Fields Integration Demo | A11y Form Validator" />
+    <meta
+      name="twitter:description"
+      content="Connect conditional sections to A11y Form Validator so hidden fields are disabled, visible fields validate, and summaries refresh after choices change."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html#webpage",
+            "url": "https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html",
+            "name": "Conditional Fields Integration Demo | A11y Form Validator",
+            "headline": "Conditional Fields Integration",
+            "description": "Connect conditional sections to A11y Form Validator so hidden fields are disabled, visible fields validate, and summaries refresh after choices change.",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/#webpage"
+            },
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html#software",
+            "name": "A11y Form Validator",
+            "alternateName": "a11y-form-validator",
+            "description": "Accessible, dependency-light form validation plugin for semantic HTML forms.",
+            "codeRepository": "https://github.com/vmitsaras/A11y-Form-Validator",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "https://github.com/vmitsaras/A11y-Form-Validator/blob/main/LICENSE",
+            "keywords": [
+              "accessibility",
+              "forms",
+              "validation",
+              "a11y"
+            ],
+            "creator": {
+              "@id": "https://github.com/vmitsaras#person"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/A11y-Form-Validator",
+              "https://www.npmjs.com/package/a11y-form-validator"
+            ],
+            "featureList": [
+              "Native HTML constraint validation support",
+              "Custom validation rules and field-specific messages",
+              "Accessible inline error messages",
+              "Focusable error summary",
+              "Character count addon",
+              "Server error rendering",
+              "Async custom validation",
+              "Locale message packs",
+              "Destroy and cleanup lifecycle"
+            ],
+            "accessibilityFeature": [
+              "Inline errors associated with aria-describedby and aria-errormessage",
+              "Polite live-region error announcements",
+              "Focusable error summary links",
+              "Native keyboard behavior for form controls"
+            ],
+            "targetProduct": {
+              "@id": "https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html#application"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://vmitsaras.github.io/A11y-Form-Validator/conditional-fields.html#application",
+            "name": "A11y Form Validator",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "runtimePlatform": "Browser",
+            "softwareVersion": "1.0.0",
+            "installUrl": "https://www.npmjs.com/package/a11y-form-validator"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://github.com/vmitsaras#person",
+            "name": "Vasileios Mistaras",
+            "url": "https://github.com/vmitsaras"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="container">
+      <header class="site-header" aria-label="Demo hub header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Dependency-light validation for semantic HTML forms</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="../README.md">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Integration demo</p>
+          <h1 id="demo-title">Conditional Fields Integration</h1>
+          <p>
+            Connect conditional form sections with A11y Form Validator so hidden fields do not block
+            submission, while visible follow-up fields still get accessible errors and summary links.
+          </p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="scenario-title">
+          <div class="section__header">
+            <h2 id="scenario-title">Scenario</h2>
+            <p>
+              A workspace operations team collects access requests. The base form stays short, but
+              enterprise billing, security review, and external collaborator details become required
+              only when the requester chooses those paths.
+            </p>
+          </div>
+          <p class="callout">
+            User goal: submit a request without hidden fields causing validation errors, and still get
+            clear guidance when visible conditional fields are incomplete.
+          </p>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="try-title">
+          <div class="section__header">
+            <h2 id="try-title">Try it</h2>
+          </div>
+          <ul class="plain-list">
+            <li>Submit the untouched form and follow the summary links to visible required fields.</li>
+            <li>Choose Enterprise and submit without billing details to see visible-only required errors.</li>
+            <li>Turn on Security review, type a short reason, and leave the field to trigger the minlength message.</li>
+            <li>Hide a section that has errors and confirm it no longer blocks validation after the refresh.</li>
+            <li>Use the server-response button to preview external field and form errors.</li>
+          </ul>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="example-title">
+          <div class="section__header">
+            <h2 id="example-title">Example</h2>
+            <p>
+              The page-level conditional adapter follows the
+              <a href="https://github.com/vmitsaras/a11y-conditional-fields/tree/main/examples/form-validator-integration">a11y-conditional-fields integration pattern</a>:
+              toggle hidden sections, disable hidden controls, refresh the validator, and revalidate
+              after a user has already attempted validation.
+            </p>
+          </div>
+
+          <div class="conditional-demo">
+            <aside class="conditional-demo__context" aria-labelledby="conditional-context-title">
+              <p class="eyebrow">Access operations</p>
+              <h3 id="conditional-context-title">Visible fields define the task</h3>
+              <p>
+                Conditional state and validation state stay separate. The conditional layer changes
+                what is available; the validator reports what still needs attention.
+              </p>
+              <dl class="conditional-demo__metrics">
+                <div>
+                  <dt>Conditional targets</dt>
+                  <dd>3</dd>
+                </div>
+                <div>
+                  <dt>Validation scope</dt>
+                  <dd>Visible fields</dd>
+                </div>
+              </dl>
+            </aside>
+
+            <form
+              id="conditional-fields-form"
+              class="conditional-form"
+              data-a11y-form-validator
+              data-a11y-conditional-fields
+              data-collapse-on-escape="true"
+              action="#"
+              method="post"
+              novalidate
+            >
+              <div class="conditional-form__intro">
+                <p class="conditional-form__tag">Workspace access request</p>
+                <p>
+                  Hidden sections are marked hidden and their fields are disabled, so the validator
+                  skips them until they become visible again.
+                </p>
+              </div>
+
+              <div class="conditional-form__grid">
+                <div>
+                  <label for="requester-email">Requester email</label>
+                  <input
+                    id="requester-email"
+                    name="requesterEmail"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    aria-describedby="requester-email-hint"
+                    data-message-required="Enter the requester email."
+                    data-message-email="Enter a valid work email address."
+                  />
+                  <p id="requester-email-hint" class="conditional-form__hint">
+                    Use the email that should receive access updates.
+                  </p>
+                </div>
+
+                <div>
+                  <label for="workspace-slug">Workspace URL slug</label>
+                  <input
+                    id="workspace-slug"
+                    name="workspaceSlug"
+                    pattern="[a-z0-9-]+"
+                    minlength="4"
+                    required
+                    aria-describedby="workspace-slug-hint"
+                    data-message-required="Enter the workspace URL slug."
+                    data-message-min-length="Use at least 4 characters."
+                    data-message-pattern="Use lowercase letters, numbers, and dashes only."
+                  />
+                  <p id="workspace-slug-hint" class="conditional-form__hint">
+                    Example: customer-success-team.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <label for="plan-type">Plan type</label>
+                <select id="plan-type" name="planType" data-condition-select required>
+                  <option value="">Choose a plan</option>
+                  <option value="pilot">Pilot</option>
+                  <option value="enterprise" data-condition-show="enterprise-billing">Enterprise</option>
+                </select>
+              </div>
+
+              <section
+                id="enterprise-billing"
+                class="conditional-form__target"
+                data-condition-target
+                hidden
+                aria-labelledby="enterprise-billing-title"
+              >
+                <h3 id="enterprise-billing-title">Enterprise billing</h3>
+                <div class="conditional-form__grid">
+                  <div>
+                    <label for="billing-contact">Billing contact email</label>
+                    <input
+                      id="billing-contact"
+                      name="billingContact"
+                      type="email"
+                      autocomplete="email"
+                      data-required-when-visible
+                      data-message-required="Enter the billing contact email."
+                      data-message-email="Enter a valid billing email address."
+                    />
+                  </div>
+
+                  <div>
+                    <label for="purchase-order">Purchase order or billing reference</label>
+                    <input
+                      id="purchase-order"
+                      name="purchaseOrder"
+                      data-required-when-visible
+                      data-message-required="Enter a purchase order or billing reference."
+                    />
+                  </div>
+                </div>
+              </section>
+
+              <label class="conditional-form__choice" for="security-review-toggle">
+                <input
+                  id="security-review-toggle"
+                  name="securityReview"
+                  type="checkbox"
+                  data-condition-toggle="security-review"
+                />
+                <span>
+                  <strong>Security review is required</strong>
+                  <span>Reveals owner and justification fields for risk review.</span>
+                </span>
+              </label>
+
+              <section
+                id="security-review"
+                class="conditional-form__target"
+                data-condition-target
+                hidden
+                aria-labelledby="security-review-title"
+              >
+                <h3 id="security-review-title">Security review</h3>
+                <div class="conditional-form__grid">
+                  <div>
+                    <label for="security-owner">Security owner</label>
+                    <input
+                      id="security-owner"
+                      name="securityOwner"
+                      autocomplete="name"
+                      data-required-when-visible
+                      data-message-required="Enter the security owner."
+                    />
+                  </div>
+
+                  <div class="conditional-form__wide">
+                    <label for="security-justification">Risk justification</label>
+                    <textarea
+                      id="security-justification"
+                      name="securityJustification"
+                      minlength="24"
+                      data-required-when-visible
+                      data-message-required="Explain why the security review is needed."
+                      data-message-min-length="Write at least 24 characters for the risk justification."
+                    ></textarea>
+                  </div>
+                </div>
+              </section>
+
+              <label class="conditional-form__choice" for="external-toggle">
+                <input
+                  id="external-toggle"
+                  name="externalCollaborators"
+                  type="checkbox"
+                  data-condition-toggle="external-collaborators"
+                />
+                <span>
+                  <strong>Invite external collaborators</strong>
+                  <span>Collects the approved domain before the request can pass.</span>
+                </span>
+              </label>
+
+              <section
+                id="external-collaborators"
+                class="conditional-form__target"
+                data-condition-target
+                hidden
+                aria-labelledby="external-collaborators-title"
+              >
+                <h3 id="external-collaborators-title">External collaborators</h3>
+                <div>
+                  <label for="approved-domain">Approved email domain</label>
+                  <input
+                    id="approved-domain"
+                    name="approvedDomain"
+                    placeholder="example.com"
+                    pattern="[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
+                    data-required-when-visible
+                    data-message-required="Enter the approved collaborator domain."
+                    data-message-pattern="Enter a domain such as example.com."
+                  />
+                </div>
+              </section>
+
+              <p class="conditional-form__status" data-condition-status role="status" aria-live="polite" aria-atomic="true">
+                No optional sections are visible.
+              </p>
+              <output id="conditional-readout" class="conditional-form__readout">
+                Visible sections: none | Field errors: 0 | Form errors: 0
+              </output>
+
+              <div class="conditional-form__actions">
+                <button type="submit">Submit request</button>
+                <button type="button" class="button--secondary" data-demo-server-error>Show server errors</button>
+                <button type="button" class="button--ghost" data-demo-reset>Reset</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="a11y-title">
+          <div class="section__header">
+            <h2 id="a11y-title">Accessibility notes</h2>
+          </div>
+          <ul class="plain-list">
+            <li>The form uses native labels, a real select, checkboxes, labelled sections, and submit/reset buttons.</li>
+            <li>Hidden conditional sections use <code>hidden</code>, disabled controls, and visible-only <code>required</code> attributes so they are ignored by validation and submission.</li>
+            <li>Conditional changes dispatch an <code>a11y-conditional-fields:change</code> event; the validator calls <code>refresh()</code> so field state matches the visible DOM.</li>
+            <li>After validation has run, showing or hiding a section revalidates the visible fields and updates the summary.</li>
+            <li>The status and output elements report conditional changes, validation results, reset state, and simulated server errors.</li>
+            <li>Keyboard behavior remains native: Tab reaches visible controls and summary links, Space toggles checkboxes, and Escape collapses a conditional section when focus is inside it.</li>
+            <li>The demo avoids motion-dependent behavior and uses the shared reduced-motion and forced-colors CSS rules.</li>
+            <li>Limitation: final product forms should still be tested with target browsers and assistive technologies.</li>
+          </ul>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="developer-title">
+          <div class="section__header">
+            <h2 id="developer-title">Developer notes</h2>
+            <p>
+              This repository stays dependency-free, so the live page includes a small demo-only adapter
+              with the same selectors and event shape. In an application, install
+              <code>a11y-conditional-fields</code> and import its runtime directly.
+            </p>
+          </div>
+
+          <div class="code-grid">
+            <article class="code-card" aria-labelledby="conditional-markup-title">
+              <h3 id="conditional-markup-title">Conditional markup</h3>
+              <pre><code>&lt;form data-a11y-conditional-fields data-a11y-form-validator&gt;
+  &lt;select data-condition-select required&gt;
+    &lt;option value=""&gt;Choose a plan&lt;/option&gt;
+    &lt;option value="enterprise" data-condition-show="enterprise-billing"&gt;
+      Enterprise
+    &lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;section id="enterprise-billing" data-condition-target hidden&gt;
+    &lt;input name="billingContact" type="email" data-required-when-visible&gt;
+  &lt;/section&gt;
+&lt;/form&gt;</code></pre>
+            </article>
+
+            <article class="code-card" aria-labelledby="conditional-script-title">
+              <h3 id="conditional-script-title">Integration script</h3>
+              <pre><code>import { createConditionalFields } from "a11y-conditional-fields";
+import {
+  createDefaultPreset,
+  createFormValidator
+} from "a11y-form-validator";
+
+const conditionalFields = createConditionalFields(form, {
+  collapseOnEscape: true,
+  disableWhenHidden: true
+});
+
+const validator = createFormValidator(form, {
+  ...createDefaultPreset(),
+  validateOn: ["submit", "blur", "input", "change"]
+});
+
+let validationHasRun = false;
+
+form.addEventListener("a11y-form-validator:after-validate", () =&gt; {
+  validationHasRun = true;
+});
+
+form.addEventListener("a11y-conditional-fields:change", async () =&gt; {
+  validator.refresh();
+
+  if (validationHasRun) {
+    await validator.validate({ reason: "conditional-change" });
+  }
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit">
+              <span class="demo-footer__plugin">A11y Form Validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              Built by
+              <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a>
+            </p>
+            <p class="demo-footer__meta">
+              <span>a11y-form-validator</span>
+              <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+              <span>MIT License</span>
+            </p>
+          </div>
+
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator" target="_blank" rel="noopener noreferrer">GitHub repository<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator" target="_blank" rel="noopener noreferrer">npm package<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+              <li class="demo-footer__item">
+                <a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme" target="_blank" rel="noopener noreferrer">Documentation<span class="visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import {
+        createDefaultPreset,
+        createFormValidator
+      } from "../dist/index.js";
+
+      function createDemoConditionalFields(form, options = {}) {
+        const settings = {
+          collapseOnEscape: Boolean(options.collapseOnEscape),
+          disableWhenHidden: options.disableWhenHidden !== false
+        };
+        const status = form.querySelector("[data-condition-status]");
+        const targets = Array.from(form.querySelectorAll("[data-condition-target]"));
+        const selectControllers = Array.from(form.querySelectorAll("[data-condition-select]"));
+        const toggleControllers = Array.from(form.querySelectorAll("[data-condition-toggle]"));
+
+        function getTargetLabel(target) {
+          const heading = target.querySelector("h3, h2, legend");
+          return heading?.textContent?.trim() || target.id;
+        }
+
+        function getVisibleTargetIds() {
+          const ids = new Set();
+
+          for (const select of selectControllers) {
+            if (!(select instanceof HTMLSelectElement)) {
+              continue;
+            }
+
+            const selectedOption = select.selectedOptions[0];
+            const targetList = selectedOption?.getAttribute("data-condition-show") || "";
+
+            for (const id of targetList.split(/\s+/).filter(Boolean)) {
+              ids.add(id);
+            }
+          }
+
+          for (const toggle of toggleControllers) {
+            if (toggle instanceof HTMLInputElement && toggle.checked) {
+              const id = toggle.getAttribute("data-condition-toggle");
+              if (id) {
+                ids.add(id);
+              }
+            }
+          }
+
+          return ids;
+        }
+
+        function setControls(target, visible) {
+          const controls = target.querySelectorAll("input, select, textarea, button");
+
+          for (const control of controls) {
+            if ("disabled" in control && settings.disableWhenHidden) {
+              control.disabled = !visible;
+            }
+
+            if (
+              control.matches("[data-required-when-visible]") &&
+              (control instanceof HTMLInputElement ||
+                control instanceof HTMLSelectElement ||
+                control instanceof HTMLTextAreaElement)
+            ) {
+              control.required = visible;
+            }
+          }
+        }
+
+        function setTargetVisible(target, visible) {
+          target.hidden = !visible;
+          target.setAttribute("aria-hidden", visible ? "false" : "true");
+
+          if ("inert" in target) {
+            target.inert = !visible;
+          }
+
+          setControls(target, visible);
+        }
+
+        function writeStatus() {
+          if (!(status instanceof HTMLElement)) {
+            return;
+          }
+
+          const visibleLabels = targets
+            .filter((target) => !target.hidden)
+            .map(getTargetLabel);
+
+          status.textContent = visibleLabels.length
+            ? `Visible conditional sections: ${visibleLabels.join(", ")}.`
+            : "No optional sections are visible.";
+        }
+
+        function dispatchChange() {
+          form.dispatchEvent(
+            new CustomEvent("a11y-conditional-fields:change", {
+              bubbles: true,
+              detail: {
+                visibleTargets: targets
+                  .filter((target) => !target.hidden)
+                  .map((target) => target.id)
+              }
+            })
+          );
+        }
+
+        function refresh(options = {}) {
+          const visibleIds = getVisibleTargetIds();
+
+          for (const target of targets) {
+            setTargetVisible(target, visibleIds.has(target.id));
+          }
+
+          writeStatus();
+
+          if (options.announce !== false) {
+            dispatchChange();
+          }
+        }
+
+        function collapseTarget(target) {
+          for (const toggle of toggleControllers) {
+            if (
+              toggle instanceof HTMLInputElement &&
+              toggle.getAttribute("data-condition-toggle") === target.id
+            ) {
+              toggle.checked = false;
+              refresh();
+              toggle.focus();
+              return;
+            }
+          }
+
+          for (const select of selectControllers) {
+            if (!(select instanceof HTMLSelectElement)) {
+              continue;
+            }
+
+            const selectedOption = select.selectedOptions[0];
+            const selectedTargets = selectedOption?.getAttribute("data-condition-show") || "";
+
+            if (!selectedTargets.split(/\s+/).includes(target.id)) {
+              continue;
+            }
+
+            const fallbackOption = Array.from(select.options).find((option) => {
+              return !(option.getAttribute("data-condition-show") || "")
+                .split(/\s+/)
+                .includes(target.id);
+            });
+
+            select.value = fallbackOption?.value || "";
+            refresh();
+            select.focus();
+            return;
+          }
+        }
+
+        form.addEventListener("change", (event) => {
+          if (
+            event.target instanceof HTMLSelectElement &&
+            event.target.matches("[data-condition-select]")
+          ) {
+            refresh();
+          }
+
+          if (
+            event.target instanceof HTMLInputElement &&
+            event.target.matches("[data-condition-toggle]")
+          ) {
+            refresh();
+          }
+        });
+
+        if (settings.collapseOnEscape) {
+          form.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") {
+              return;
+            }
+
+            const activeTarget = targets.find((target) => {
+              return !target.hidden && event.target instanceof Node && target.contains(event.target);
+            });
+
+            if (activeTarget) {
+              event.preventDefault();
+              collapseTarget(activeTarget);
+            }
+          });
+        }
+
+        refresh({ announce: false });
+
+        return {
+          refresh,
+          isVisible(id) {
+            const target = document.getElementById(id);
+            return target instanceof HTMLElement && !target.hidden;
+          }
+        };
+      }
+
+      const form = document.getElementById("conditional-fields-form");
+
+      if (form instanceof HTMLFormElement) {
+        const readout = document.getElementById("conditional-readout");
+        const resetButton = form.querySelector("[data-demo-reset]");
+        const serverErrorButton = form.querySelector("[data-demo-server-error]");
+        let validationHasRun = false;
+
+        const conditionalFields = createDemoConditionalFields(form, {
+          collapseOnEscape: true,
+          disableWhenHidden: true
+        });
+        const validator = createFormValidator(form, {
+          ...createDefaultPreset(),
+          validateOn: ["submit", "blur", "input", "change"]
+        });
+
+        function updateReadout() {
+          if (!(readout instanceof HTMLOutputElement)) {
+            return;
+          }
+
+          const visibleSections = [
+            conditionalFields.isVisible("enterprise-billing") ? "enterprise billing" : "",
+            conditionalFields.isVisible("security-review") ? "security review" : "",
+            conditionalFields.isVisible("external-collaborators") ? "external collaborators" : ""
+          ].filter(Boolean);
+          const errors = validator.getErrors();
+          const fieldErrorCount = Object.keys(errors.fields).length;
+          const formErrorCount = errors.form.length;
+
+          readout.value = [
+            `Visible sections: ${visibleSections.join(", ") || "none"}`,
+            `Field errors: ${fieldErrorCount}`,
+            `Form errors: ${formErrorCount}`
+          ].join(" | ");
+        }
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+        });
+
+        form.addEventListener("a11y-conditional-fields:change", async () => {
+          validator.refresh();
+
+          if (validationHasRun) {
+            await validator.validate({ reason: "conditional-change" });
+          }
+
+          updateReadout();
+        });
+
+        form.addEventListener("a11y-form-validator:after-validate", () => {
+          validationHasRun = true;
+          updateReadout();
+        });
+
+        form.addEventListener("a11y-form-validator:submit-blocked", () => {
+          updateReadout();
+        });
+
+        form.addEventListener("a11y-form-validator:form-valid", () => {
+          updateReadout();
+        });
+
+        resetButton?.addEventListener("click", () => {
+          form.reset();
+          validator.reset();
+          conditionalFields.refresh({ announce: false });
+          validationHasRun = false;
+          updateReadout();
+        });
+
+        serverErrorButton?.addEventListener("click", () => {
+          validator.setErrors({
+            form: ["The access service returned review notes for this request."],
+            fields: {
+              requesterEmail: "Use an email from an approved organization.",
+              workspaceSlug: "That workspace URL is already reserved."
+            }
+          });
+          updateReadout();
+          validator.focusOnError();
+        });
+
+        updateReadout();
+      }
+    </script>
+  </body>
+</html>

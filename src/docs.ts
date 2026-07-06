@@ -209,6 +209,12 @@ if (form instanceof HTMLFormElement) {
       path: 'https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/checkout.html'
     },
     {
+      name: 'Conditional Fields Integration',
+      description:
+        'Integration pattern for a11y-conditional-fields, visible-only required fields, validator refresh, and summary updates.',
+      path: 'https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/conditional-fields.html'
+    },
+    {
       name: 'Remote Validation',
       description: 'Username availability checked with an async custom rule and debounced input validation.',
       path: 'https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/remote-validation.html'
