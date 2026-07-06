@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### Patch Changes
+
+- Added conditional fields
+
 ## 1.0.0 - 2026-07-03
 
 ### Added
