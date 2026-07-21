@@ -1,4 +1,4 @@
-import { f as toSafeInteger, r as ensureElementId } from "../helpers.js";
+import { a as EVENTS, g as ensureElementId, v as toSafeInteger } from "../A11yFormValidator.js";
 
 //#region src/addons/character-count.ts
 const DEFAULT_OPTIONS = Object.freeze({
@@ -54,17 +54,43 @@ function createCharacterCountAddon(options = {}) {
 			};
 			validator.form.addEventListener("input", this.onInput);
 			this.installCounters();
-			this.unsubscribeAfterValidate = validator.events.on("a11y-form-validator:after-validate", () => this.updateAll());
-			this.unsubscribeDestroy = validator.events.on("a11y-form-validator:destroy", () => this.destroy());
+			this.unsubscribeReset = validator.events.on(EVENTS.reset, () => this.updateAll());
+			this.unsubscribeRefresh = validator.events.on(EVENTS.refresh, () => this.installCounters());
 		},
 		installCounters() {
 			if (!this.validator) return;
+			const fields = new Map(this.validator.fields.map((field) => [field.name, field]));
+			this.counters.forEach((entry, name) => {
+				const field = fields.get(name);
+				if (!field || field.primaryElement !== entry.field.primaryElement || !field.primaryElement.matches(this.options.selector)) {
+					entry.field.disconnectDescription(entry.counter.id);
+					entry.counter.remove();
+					this.counters.delete(name);
+				}
+			});
 			this.validator.fields.forEach((field) => {
 				const element = field.primaryElement;
 				if (!element.matches(this.options.selector)) return;
 				const max = getLimit(element, "maxlength", "maxLength");
 				const min = getLimit(element, "minlength", "minLength");
-				if (!max && !min) return;
+				if (!max && !min) {
+					const existing$1 = this.counters.get(field.name);
+					if (existing$1) {
+						existing$1.field.disconnectDescription(existing$1.counter.id);
+						existing$1.counter.remove();
+						this.counters.delete(field.name);
+					}
+					return;
+				}
+				const existing = this.counters.get(field.name);
+				if (existing) {
+					existing.field = field;
+					existing.max = max;
+					existing.min = min;
+					field.connectDescription(existing.counter.id);
+					this.update(field);
+					return;
+				}
 				const counter = element.ownerDocument.createElement("div");
 				counter.id = `${ensureElementId(element)}-character-count`;
 				counter.className = "a11y-form-validator__character-count";
@@ -142,8 +168,8 @@ function createCharacterCountAddon(options = {}) {
 		},
 		destroy() {
 			if (this.validator && this.onInput) this.validator.form.removeEventListener("input", this.onInput);
-			this.unsubscribeAfterValidate?.();
-			this.unsubscribeDestroy?.();
+			this.unsubscribeReset?.();
+			this.unsubscribeRefresh?.();
 			this.counters.forEach(({ field, counter }) => {
 				field.disconnectDescription(counter.id);
 				counter.remove();

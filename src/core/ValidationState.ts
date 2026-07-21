@@ -52,10 +52,16 @@ export class ValidationState {
     this.formState = state;
   }
 
+  remove(name: string): void {
+    this.fieldStates.delete(name);
+  }
+
   snapshot(): ValidationStateSnapshot {
     return {
       form: this.formState,
-      fields: Object.fromEntries(this.fieldStates.entries())
+      fields: Object.fromEntries(
+        [...this.fieldStates.entries()].map(([name, state]) => [name, { ...state }])
+      )
     };
   }
 }

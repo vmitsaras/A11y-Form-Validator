@@ -1,10 +1,11 @@
 //#region src/core/EventEmitter.d.ts
-declare class EventEmitter {
+type EventHandler<Detail> = (event: CustomEvent<Detail>) => void;
+declare class EventEmitter<EventMap extends object = Record<string, unknown>> {
   readonly target: EventTarget;
   constructor(target: EventTarget);
-  emit(name: string, detail?: Record<string, unknown>): void;
-  on(name: string, handler: EventListener): () => void;
-  off(name: string, handler: EventListener): void;
+  emit<Name extends keyof EventMap & string>(name: Name, detail: EventMap[Name]): void;
+  on<Name extends keyof EventMap & string>(name: Name, handler: EventHandler<EventMap[Name]>): () => void;
+  off<Name extends keyof EventMap & string>(name: Name, handler: EventHandler<EventMap[Name]>): void;
 }
 //#endregion
 //#region src/core/helpers.d.ts
@@ -13,6 +14,7 @@ type RuleList = Record<string, true | string | number | RuleOptions>;
 //#endregion
 //#region src/core/FieldController.d.ts
 type FormControl = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+type IgnoredFieldReason = 'disabled' | 'hidden' | 'selector';
 type FieldType = 'textarea' | 'select' | 'select-multiple' | 'radio' | 'checkbox' | 'file' | string;
 declare class FieldController {
   readonly validator: A11yFormValidator;
@@ -34,7 +36,7 @@ declare class FieldController {
   getActiveElements(): FormControl[];
   isDisabled(): boolean;
   isHidden(): boolean;
-  shouldIgnore(): false | 'disabled' | 'hidden' | 'selector';
+  shouldIgnore(): false | IgnoredFieldReason;
   getValue(): FieldValue;
   getFieldConfig(): unknown;
   getDataMessage(ruleName: string): string;
@@ -107,6 +109,7 @@ declare class ValidationState {
   ensure(name: string): FieldValidationState;
   updateField(name: string, patch: Partial<FieldValidationState>): FieldValidationState;
   setFormState(state: FormValidationState): void;
+  remove(name: string): void;
   snapshot(): ValidationStateSnapshot;
 }
 //#endregion
@@ -189,6 +192,7 @@ type A11yFormValidatorOptionsInput = Partial<Omit<A11yFormValidatorOptions, 'val
   selectors?: Partial<A11yFormValidatorOptions['selectors']>;
 };
 interface A11yFormValidatorInstance {
+  readonly events: EventEmitter<ValidatorEventMap>;
   validate(options?: ValidateOptions): Promise<boolean>;
   validateField(input: FieldInput, options?: ValidateOptions): Promise<boolean>;
   refresh(): this;
@@ -216,16 +220,116 @@ type ServerErrors = Record<string, string | string[] | undefined> & {
   _form?: string | string[];
 };
 declare const EVENTS: Readonly<{
-  init: "a11y-form-validator:init";
-  beforeValidate: "a11y-form-validator:before-validate";
-  afterValidate: "a11y-form-validator:after-validate";
-  fieldValid: "a11y-form-validator:field-valid";
-  fieldInvalid: "a11y-form-validator:field-invalid";
-  formValid: "a11y-form-validator:form-valid";
-  formInvalid: "a11y-form-validator:form-invalid";
-  submitBlocked: "a11y-form-validator:submit-blocked";
-  destroy: "a11y-form-validator:destroy";
+  readonly init: "a11y-form-validator:init";
+  readonly beforeValidate: "a11y-form-validator:before-validate";
+  readonly afterValidate: "a11y-form-validator:after-validate";
+  readonly fieldPending: "a11y-form-validator:field-pending";
+  readonly fieldValid: "a11y-form-validator:field-valid";
+  readonly fieldInvalid: "a11y-form-validator:field-invalid";
+  readonly fieldIgnored: "a11y-form-validator:field-ignored";
+  readonly formValid: "a11y-form-validator:form-valid";
+  readonly formInvalid: "a11y-form-validator:form-invalid";
+  readonly errorsChanged: "a11y-form-validator:errors-changed";
+  readonly submitBlocked: "a11y-form-validator:submit-blocked";
+  readonly submitReady: "a11y-form-validator:submit-ready";
+  readonly refresh: "a11y-form-validator:refresh";
+  readonly reset: "a11y-form-validator:reset";
+  readonly destroy: "a11y-form-validator:destroy";
 }>;
+type ErrorChangeSource = 'client-validation' | 'server' | 'manual-clear' | 'reset';
+type SubmitBlockCause = 'invalid' | 'validation-error' | 'resubmit-error';
+interface ValidatorEventBase {
+  instance: A11yFormValidator;
+  validator: A11yFormValidator;
+  form: HTMLFormElement;
+}
+interface ValidatorInitEventDetail extends ValidatorEventBase {
+  state: ValidationStateSnapshot;
+}
+interface ValidatorValidationStartEventDetail extends ValidatorEventBase {
+  reason: string;
+  state: ValidationStateSnapshot;
+}
+interface ValidatorValidationCompleteEventDetail extends ValidatorValidationStartEventDetail {
+  valid: boolean;
+  errors: ValidatorErrors;
+}
+interface ValidatorFieldEventDetail extends ValidatorEventBase {
+  field: FieldController;
+  fieldName: string;
+  element: FieldController['primaryElement'];
+  reason: string;
+  state: FieldValidationState;
+}
+interface ValidatorFieldPendingEventDetail extends ValidatorFieldEventDetail {}
+interface ValidatorFieldValidEventDetail extends ValidatorFieldEventDetail {
+  valid: true;
+}
+interface ValidatorFieldInvalidEventDetail extends ValidatorFieldEventDetail {
+  valid: false;
+  message: string;
+}
+interface ValidatorFieldIgnoredEventDetail extends ValidatorFieldEventDetail {
+  ignoredReason: IgnoredFieldReason;
+}
+interface ValidatorFormValidEventDetail extends ValidatorValidationCompleteEventDetail {
+  valid: true;
+}
+interface ValidatorFormInvalidEventDetail extends ValidatorValidationCompleteEventDetail {
+  valid: false;
+}
+interface ValidatorErrorsChangedEventDetail extends ValidatorEventBase {
+  errors: ValidatorErrors;
+  previousErrors: ValidatorErrors;
+  source: ErrorChangeSource;
+  reason: string;
+  state: ValidationStateSnapshot;
+}
+interface ValidatorSubmitBlockedEventDetail extends ValidatorEventBase {
+  valid: boolean;
+  reason: string;
+  errors: ValidatorErrors;
+  state: ValidationStateSnapshot;
+  submitter: HTMLElement | null;
+  cause: SubmitBlockCause;
+  error?: unknown;
+}
+interface ValidatorSubmitReadyEventDetail extends ValidatorEventBase {
+  valid: true;
+  reason: string;
+  errors: ValidatorErrors;
+  state: ValidationStateSnapshot;
+  submitter: HTMLElement | null;
+}
+interface ValidatorRefreshEventDetail extends ValidatorEventBase {
+  reason: 'refresh';
+  state: ValidationStateSnapshot;
+}
+interface ValidatorResetEventDetail extends ValidatorEventBase {
+  reason: 'reset';
+  state: ValidationStateSnapshot;
+}
+interface ValidatorDestroyEventDetail extends ValidatorEventBase {
+  state: ValidationStateSnapshot;
+}
+type ValidatorEventMap = {
+  [EVENTS.init]: ValidatorInitEventDetail;
+  [EVENTS.beforeValidate]: ValidatorValidationStartEventDetail;
+  [EVENTS.afterValidate]: ValidatorValidationCompleteEventDetail;
+  [EVENTS.fieldPending]: ValidatorFieldPendingEventDetail;
+  [EVENTS.fieldValid]: ValidatorFieldValidEventDetail;
+  [EVENTS.fieldInvalid]: ValidatorFieldInvalidEventDetail;
+  [EVENTS.fieldIgnored]: ValidatorFieldIgnoredEventDetail;
+  [EVENTS.formValid]: ValidatorFormValidEventDetail;
+  [EVENTS.formInvalid]: ValidatorFormInvalidEventDetail;
+  [EVENTS.errorsChanged]: ValidatorErrorsChangedEventDetail;
+  [EVENTS.submitBlocked]: ValidatorSubmitBlockedEventDetail;
+  [EVENTS.submitReady]: ValidatorSubmitReadyEventDetail;
+  [EVENTS.refresh]: ValidatorRefreshEventDetail;
+  [EVENTS.reset]: ValidatorResetEventDetail;
+  [EVENTS.destroy]: ValidatorDestroyEventDetail;
+};
+type ValidatorCustomEvent<Name extends keyof ValidatorEventMap> = CustomEvent<ValidatorEventMap[Name]>;
 declare const SELECTORS: Readonly<{
   fields: "input, select, textarea";
   initAll: "[data-a11y-form-validator]";
@@ -269,7 +373,7 @@ declare class A11yFormValidator implements A11yFormValidatorInstance {
   private static readonly instances;
   readonly form: HTMLFormElement;
   readonly options: A11yFormValidatorOptions;
-  readonly events: EventEmitter;
+  readonly events: EventEmitter<ValidatorEventMap>;
   readonly state: ValidationState;
   readonly ruleRegistry: RuleRegistry;
   readonly messageResolver: MessageResolver;
@@ -289,6 +393,11 @@ declare class A11yFormValidator implements A11yFormValidatorInstance {
   private readonly addedNoValidate;
   private readonly abortController;
   private readonly validationRuns;
+  private formValidationRunId;
+  private submissionRunId;
+  private interactionRevision;
+  private submissionPhase;
+  private pendingSubmitter;
   private destroyed;
   private inlineErrorAnnouncementsMuted;
   private readonly onSubmit;
@@ -306,19 +415,30 @@ declare class A11yFormValidator implements A11yFormValidatorInstance {
   unregisterRule(name: string): this;
   installAddons(): void;
   collectFields(): FieldController[];
+  private refreshFields;
   refresh(): this;
   private bindEvents;
   private handleSubmit;
+  private processSubmission;
   private handleFocusOut;
   private handleInput;
   private handleChange;
   queueValidation(field: FieldController, reason: string): void;
+  private invalidateFieldValidation;
+  private restoreFieldState;
+  private invalidateFormValidation;
   findFieldByElement(element: EventTarget | null): FieldController | undefined;
   resolveField(input: FieldInput): FieldController | null;
   getAllValues(): Record<string, FieldValue>;
+  private normalizeReason;
+  private errorsEqual;
+  private emitErrorsChanged;
+  private fieldEventDetail;
   validate(options?: ValidateOptions): Promise<boolean>;
   validateField(input: FieldInput, options?: ValidateOptions): Promise<boolean>;
+  private validateFieldInternal;
   reset(): this;
+  private clearErrorState;
   clearErrors(): this;
   setErrors(errors?: ServerErrors): this;
   getErrors(): ValidatorErrors;
@@ -331,5 +451,5 @@ declare class A11yFormValidator implements A11yFormValidatorInstance {
 declare function createFormValidator(form: HTMLFormElement, options?: A11yFormValidatorOptionsInput): A11yFormValidatorInstance;
 declare function initFormValidators(options?: A11yFormValidatorOptionsInput, root?: ParentNode): A11yFormValidatorInstance[];
 //#endregion
-export { initFormValidators as A, EventEmitter as B, ValidatorAddon as C, ValidatorRule as D, ValidatorRenderer as E, RuleRegistry as F, MessageResolver as I, FieldController as L, FormValidationState as M, ValidationState as N, ValidatorRuleResult as O, ValidationStateSnapshot as P, FieldType as R, ValidationResult as S, ValidatorMessages as T, SELECTORS as _, ATTRIBUTES as a, ValidateTrigger as b, DEFAULT_OPTIONS as c, FieldInput as d, FieldValue as f, MessageValue as g, MessageResolverContext as h, A11yFormValidatorOptionsInput as i, FieldValidationState as j, createFormValidator as k, EVENTS as l, LocaleMessages as m, A11yFormValidatorInstance as n, AddonInput as o, FocusOnError as p, A11yFormValidatorOptions as r, CLASSES as s, A11yFormValidator as t, ErrorMode as u, ServerErrors as v, ValidatorErrors as w, ValidationContext as x, ValidateOptions as y, FormControl as z };
+export { FormValidationState as $, ValidatorEventBase as A, ValidatorMessages as B, ValidationContext as C, ValidatorDestroyEventDetail as D, ValidatorCustomEvent as E, ValidatorFieldPendingEventDetail as F, ValidatorRuleResult as G, ValidatorRenderer as H, ValidatorFieldValidEventDetail as I, ValidatorValidationCompleteEventDetail as J, ValidatorSubmitBlockedEventDetail as K, ValidatorFormInvalidEventDetail as L, ValidatorFieldEventDetail as M, ValidatorFieldIgnoredEventDetail as N, ValidatorErrors as O, ValidatorFieldInvalidEventDetail as P, FieldValidationState as Q, ValidatorFormValidEventDetail as R, ValidateTrigger as S, ValidatorAddon as T, ValidatorResetEventDetail as U, ValidatorRefreshEventDetail as V, ValidatorRule as W, createFormValidator as X, ValidatorValidationStartEventDetail as Y, initFormValidators as Z, MessageValue as _, ATTRIBUTES as a, FieldType as at, SubmitBlockCause as b, DEFAULT_OPTIONS as c, EventEmitter as ct, ErrorMode as d, ValidationState as et, FieldInput as f, MessageResolverContext as g, LocaleMessages as h, A11yFormValidatorOptionsInput as i, FieldController as it, ValidatorEventMap as j, ValidatorErrorsChangedEventDetail as k, EVENTS as l, EventHandler as lt, FocusOnError as m, A11yFormValidatorInstance as n, RuleRegistry as nt, AddonInput as o, FormControl as ot, FieldValue as p, ValidatorSubmitReadyEventDetail as q, A11yFormValidatorOptions as r, MessageResolver as rt, CLASSES as s, IgnoredFieldReason as st, A11yFormValidator as t, ValidationStateSnapshot as tt, ErrorChangeSource as u, SELECTORS as v, ValidationResult as w, ValidateOptions as x, ServerErrors as y, ValidatorInitEventDetail as z };
 //# sourceMappingURL=A11yFormValidator.d.ts.map

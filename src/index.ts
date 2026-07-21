@@ -13,10 +13,12 @@ export type {
   A11yFormValidatorInstance,
   A11yFormValidatorOptions,
   A11yFormValidatorOptionsInput,
+  ErrorChangeSource,
   ErrorMode,
   FieldInput,
   FieldValue,
   FocusOnError,
+  SubmitBlockCause,
   LocaleMessages,
   MessageResolverContext,
   MessageValue,
@@ -26,6 +28,25 @@ export type {
   ValidationContext,
   ValidationResult,
   ValidatorAddon,
+  ValidatorCustomEvent,
+  ValidatorDestroyEventDetail,
+  ValidatorErrorsChangedEventDetail,
+  ValidatorEventBase,
+  ValidatorEventMap,
+  ValidatorFieldEventDetail,
+  ValidatorFieldIgnoredEventDetail,
+  ValidatorFieldInvalidEventDetail,
+  ValidatorFieldPendingEventDetail,
+  ValidatorFieldValidEventDetail,
+  ValidatorFormInvalidEventDetail,
+  ValidatorFormValidEventDetail,
+  ValidatorInitEventDetail,
+  ValidatorRefreshEventDetail,
+  ValidatorResetEventDetail,
+  ValidatorSubmitBlockedEventDetail,
+  ValidatorSubmitReadyEventDetail,
+  ValidatorValidationCompleteEventDetail,
+  ValidatorValidationStartEventDetail,
   ValidatorErrors,
   ValidatorMessages,
   ValidatorRenderer,
@@ -33,13 +54,14 @@ export type {
   ValidatorRuleResult
 } from './core/A11yFormValidator.js';
 export { EventEmitter } from './core/EventEmitter.js';
+export type { EventHandler } from './core/EventEmitter.js';
 export { ValidationState } from './core/ValidationState.js';
 export type { FieldValidationState, FormValidationState, ValidationStateSnapshot } from './core/ValidationState.js';
 export { RuleRegistry } from './core/RuleRegistry.js';
 export { MessageResolver } from './core/MessageResolver.js';
 export { ErrorRenderer } from './core/ErrorRenderer.js';
 export { FieldController } from './core/FieldController.js';
-export type { FieldType, FormControl } from './core/FieldController.js';
+export type { FieldType, FormControl, IgnoredFieldReason } from './core/FieldController.js';
 export { createDefaultPreset } from './presets/default.js';
 export { createNoSummaryPreset } from './presets/no-summary.js';
 export { createMinimalPreset } from './presets/minimal.js';

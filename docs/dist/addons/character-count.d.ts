@@ -1,4 +1,4 @@
-import { C as ValidatorAddon, L as FieldController, t as A11yFormValidator } from "../A11yFormValidator.js";
+import { T as ValidatorAddon, it as FieldController, t as A11yFormValidator } from "../A11yFormValidator.js";
 
 //#region src/addons/character-count.d.ts
 interface CharacterCountMessages {
@@ -24,8 +24,8 @@ interface CharacterCountAddon extends ValidatorAddon {
   };
   counters: Map<string, CharacterCountEntry>;
   onInput: EventListener | null;
-  unsubscribeAfterValidate?: () => void;
-  unsubscribeDestroy?: () => void;
+  unsubscribeReset?: () => void;
+  unsubscribeRefresh?: () => void;
   installCounters(): void;
   shouldShow(length: number, max: number | null): boolean;
   update(input: FieldController | string | HTMLElement): void;

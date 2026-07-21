@@ -19,11 +19,13 @@ function setupDom(html: string): JSDOM {
     HTMLElement: dom.window.HTMLElement,
     HTMLFormElement: dom.window.HTMLFormElement,
     HTMLInputElement: dom.window.HTMLInputElement,
+    HTMLButtonElement: dom.window.HTMLButtonElement,
     HTMLSelectElement: dom.window.HTMLSelectElement,
     HTMLTextAreaElement: dom.window.HTMLTextAreaElement,
     CustomEvent: dom.window.CustomEvent,
     Event: dom.window.Event,
     FocusEvent: dom.window.FocusEvent,
+    SubmitEvent: dom.window.SubmitEvent,
     FileList: dom.window.FileList
   });
   return dom;
@@ -336,7 +338,7 @@ test('blur validation after submit attempt clears once field becomes valid', asy
   const input = document.getElementById('password') as HTMLInputElement;
   new A11yFormValidator(form);
 
-  form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+  form.dispatchEvent(new window.SubmitEvent('submit', { bubbles: true, cancelable: true }));
   await new Promise((resolve) => setTimeout(resolve, 0));
   input.value = 'long-enough';
   input.dispatchEvent(new window.FocusEvent('focusout', { bubbles: true }));
@@ -387,7 +389,11 @@ test('default preset submit focuses summary and keeps inline errors out of live 
   const form = getForm();
   new A11yFormValidator(form, createDefaultPreset());
 
-  form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+  form.dispatchEvent(new window.SubmitEvent('submit', {
+    bubbles: true,
+    cancelable: true,
+    submitter: form.querySelector('button')
+  }));
   await new Promise((resolve) => setTimeout(resolve, 0));
 
   const summary = form.querySelector<HTMLElement>('.a11y-form-validator__summary');
@@ -544,6 +550,63 @@ test('character count addon announces remaining characters and links as a descri
   expect(counter?.textContent).toBe('5 characters remaining.');
 });
 
+test('error summary removes a corrected isolated field while preserving remaining errors', async () => {
+  setupDom(`
+    <form id="test-form">
+      <label for="name">Name</label>
+      <input id="name" name="name" required />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required />
+    </form>
+  `);
+  const form = getForm();
+  const validator = new A11yFormValidator(form, createDefaultPreset());
+  await validator.validate({ reason: 'submit' });
+  expect(form.querySelectorAll('.a11y-form-validator__summary-link')).toHaveLength(2);
+
+  (document.getElementById('name') as HTMLInputElement).value = 'Ada Lovelace';
+  await validator.validateField('name', { reason: 'blur' });
+
+  const links = Array.from(form.querySelectorAll<HTMLAnchorElement>('.a11y-form-validator__summary-link'));
+  expect(links).toHaveLength(1);
+  expect(links[0]?.textContent).toMatch(/^Email:/);
+});
+
+test('character count resets and reconciles dynamic fields without duplicates', () => {
+  setupDom(`
+    <form id="test-form">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" maxlength="10">abc</textarea>
+      <div id="dynamic"></div>
+    </form>
+  `);
+  const form = getForm();
+  const textarea = document.getElementById('message') as HTMLTextAreaElement;
+  const dynamic = document.getElementById('dynamic')!;
+  const validator = new A11yFormValidator(form, { addons: [createCharacterCountAddon()] });
+
+  textarea.value = 'abcdefgh';
+  textarea.dispatchEvent(new window.Event('input', { bubbles: true }));
+  expect(document.getElementById('message-character-count')?.textContent).toBe('2 characters remaining.');
+
+  validator.reset();
+  expect(textarea.value).toBe('abc');
+  expect(document.getElementById('message-character-count')?.textContent).toBe('7 characters remaining.');
+
+  dynamic.innerHTML = '<label for="notes">Notes</label><textarea id="notes" name="notes" maxlength="5"></textarea>';
+  validator.refresh();
+  validator.refresh();
+  expect(form.querySelectorAll('#notes-character-count')).toHaveLength(1);
+  expect((document.getElementById('notes') as HTMLTextAreaElement).getAttribute('aria-describedby'))
+    .toBe('notes-character-count');
+
+  const notes = document.getElementById('notes') as HTMLTextAreaElement;
+  notes.removeAttribute('maxlength');
+  validator.refresh();
+  expect(document.getElementById('notes-character-count')).toBeNull();
+  expect(notes.hasAttribute('aria-describedby')).toBe(false);
+});
+
 test('duplicate initialization does not duplicate summaries, counters, or submit listeners', async () => {
   setupDom(`
     <form id="test-form">
@@ -567,7 +630,11 @@ test('duplicate initialization does not duplicate summaries, counters, or submit
   expect(form.querySelectorAll('.a11y-form-validator__summary')).toHaveLength(1);
   expect(form.querySelectorAll('.a11y-form-validator__character-count')).toHaveLength(1);
 
-  form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+  form.dispatchEvent(new window.SubmitEvent('submit', {
+    bubbles: true,
+    cancelable: true,
+    submitter: form.querySelector('button')
+  }));
   await new Promise((resolve) => setTimeout(resolve, 0));
 
   expect(form.querySelectorAll('.a11y-form-validator__error')).toHaveLength(1);

@@ -1,4 +1,4 @@
-import type { A11yFormValidator, ValidatorAddon } from '../core/A11yFormValidator.js';
+import { EVENTS, type A11yFormValidator, type ValidatorAddon } from '../core/A11yFormValidator.js';
 import type { FieldController } from '../core/FieldController.js';
 import { ensureElementId, getPreferredScrollBehavior } from '../core/helpers.js';
 
@@ -18,8 +18,7 @@ export interface ErrorSummaryAddon extends ValidatorAddon {
   container: HTMLElement | null;
   title: HTMLHeadingElement | null;
   list: HTMLUListElement | null;
-  unsubscribeAfterValidate?: () => void;
-  unsubscribeDestroy?: () => void;
+  unsubscribeErrorsChanged?: () => void;
   getErrors(): SummaryEntry[];
   update(): void;
   hasErrors(): boolean;
@@ -53,8 +52,7 @@ export function createErrorSummaryAddon(options: ErrorSummaryAddonOptions = {}):
       validator.form.prepend(this.container);
       validator.summaryAddon = this;
 
-      this.unsubscribeAfterValidate = validator.events.on('a11y-form-validator:after-validate', () => this.update());
-      this.unsubscribeDestroy = validator.events.on('a11y-form-validator:destroy', () => this.destroy());
+      this.unsubscribeErrorsChanged = validator.events.on(EVENTS.errorsChanged, () => this.update());
     },
 
     getErrors(): SummaryEntry[] {
@@ -127,8 +125,7 @@ export function createErrorSummaryAddon(options: ErrorSummaryAddonOptions = {}):
     },
 
     destroy(): void {
-      this.unsubscribeAfterValidate?.();
-      this.unsubscribeDestroy?.();
+      this.unsubscribeErrorsChanged?.();
       this.container?.remove();
       if (this.validator) {
         this.validator.summaryAddon = null;

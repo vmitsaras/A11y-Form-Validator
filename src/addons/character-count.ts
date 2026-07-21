@@ -1,4 +1,4 @@
-import type { A11yFormValidator, ValidatorAddon } from '../core/A11yFormValidator.js';
+import { EVENTS, type A11yFormValidator, type ValidatorAddon } from '../core/A11yFormValidator.js';
 import type { FieldController } from '../core/FieldController.js';
 import { ensureElementId, toSafeInteger } from '../core/helpers.js';
 
@@ -26,8 +26,8 @@ export interface CharacterCountAddon extends ValidatorAddon {
   options: Required<Omit<CharacterCountAddonOptions, 'messages'>> & { messages: CharacterCountMessages };
   counters: Map<string, CharacterCountEntry>;
   onInput: EventListener | null;
-  unsubscribeAfterValidate?: () => void;
-  unsubscribeDestroy?: () => void;
+  unsubscribeReset?: () => void;
+  unsubscribeRefresh?: () => void;
   installCounters(): void;
   shouldShow(length: number, max: number | null): boolean;
   update(input: FieldController | string | HTMLElement): void;
@@ -100,14 +100,28 @@ export function createCharacterCountAddon(options: CharacterCountAddonOptions = 
       };
       validator.form.addEventListener('input', this.onInput);
       this.installCounters();
-      this.unsubscribeAfterValidate = validator.events.on('a11y-form-validator:after-validate', () => this.updateAll());
-      this.unsubscribeDestroy = validator.events.on('a11y-form-validator:destroy', () => this.destroy());
+      this.unsubscribeReset = validator.events.on(EVENTS.reset, () => this.updateAll());
+      this.unsubscribeRefresh = validator.events.on(EVENTS.refresh, () => this.installCounters());
     },
 
     installCounters(): void {
       if (!this.validator) {
         return;
       }
+
+      const fields = new Map(this.validator.fields.map((field) => [field.name, field]));
+      this.counters.forEach((entry, name) => {
+        const field = fields.get(name);
+        if (
+          !field ||
+          field.primaryElement !== entry.field.primaryElement ||
+          !field.primaryElement.matches(this.options.selector)
+        ) {
+          entry.field.disconnectDescription(entry.counter.id);
+          entry.counter.remove();
+          this.counters.delete(name);
+        }
+      });
 
       this.validator.fields.forEach((field) => {
         const element = field.primaryElement;
@@ -118,6 +132,22 @@ export function createCharacterCountAddon(options: CharacterCountAddonOptions = 
         const max = getLimit(element, 'maxlength', 'maxLength');
         const min = getLimit(element, 'minlength', 'minLength');
         if (!max && !min) {
+          const existing = this.counters.get(field.name);
+          if (existing) {
+            existing.field.disconnectDescription(existing.counter.id);
+            existing.counter.remove();
+            this.counters.delete(field.name);
+          }
+          return;
+        }
+
+        const existing = this.counters.get(field.name);
+        if (existing) {
+          existing.field = field;
+          existing.max = max;
+          existing.min = min;
+          field.connectDescription(existing.counter.id);
+          this.update(field);
           return;
         }
 
@@ -210,8 +240,8 @@ export function createCharacterCountAddon(options: CharacterCountAddonOptions = 
       if (this.validator && this.onInput) {
         this.validator.form.removeEventListener('input', this.onInput);
       }
-      this.unsubscribeAfterValidate?.();
-      this.unsubscribeDestroy?.();
+      this.unsubscribeReset?.();
+      this.unsubscribeRefresh?.();
       this.counters.forEach(({ field, counter }) => {
         field.disconnectDescription(counter.id);
         counter.remove();

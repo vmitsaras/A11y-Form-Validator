@@ -1,4 +1,5 @@
 import { afterEach, expect, test } from 'vitest';
+import { readFile } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 import { A11yFormValidator } from '../src/index.js';
 import { createDefaultPreset } from '../src/presets/default.js';
@@ -184,4 +185,16 @@ test('remote validation demo async username availability rule', async () => {
   const error = document.getElementById('a11y-form-validator-error-remote-form-username');
   expect(error).toBeTruthy();
   expect(error?.textContent).toBe('That username is already taken.');
+});
+
+test('lifecycle demo delegates every public event and keeps its debug log non-live', async () => {
+  const source = await readFile(new URL('../demo/lifecycle-events.html', import.meta.url), 'utf8');
+
+  expect(source).toContain('for (const eventName of Object.values(EVENTS))');
+  expect(source).toContain("root.addEventListener(eventName");
+  expect(source).toContain('validator.refresh()');
+  expect(source).toContain('validator.reset()');
+  expect(source).toContain('validator.setErrors(');
+  expect(source).toMatch(/<ol id="event-log"[^>]*aria-label="Validator lifecycle event log"[^>]*><\/ol>/);
+  expect(source).not.toMatch(/<ol id="event-log"[^>]*aria-live/);
 });

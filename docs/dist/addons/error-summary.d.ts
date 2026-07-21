@@ -1,4 +1,4 @@
-import { C as ValidatorAddon, L as FieldController, t as A11yFormValidator } from "../A11yFormValidator.js";
+import { T as ValidatorAddon, it as FieldController, t as A11yFormValidator } from "../A11yFormValidator.js";
 
 //#region src/addons/error-summary.d.ts
 interface ErrorSummaryAddonOptions {
@@ -15,8 +15,7 @@ interface ErrorSummaryAddon extends ValidatorAddon {
   container: HTMLElement | null;
   title: HTMLHeadingElement | null;
   list: HTMLUListElement | null;
-  unsubscribeAfterValidate?: () => void;
-  unsubscribeDestroy?: () => void;
+  unsubscribeErrorsChanged?: () => void;
   getErrors(): SummaryEntry[];
   update(): void;
   hasErrors(): boolean;

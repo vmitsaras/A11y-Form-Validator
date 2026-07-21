@@ -151,6 +151,7 @@
 
       <button type="submit">Sign in</button>
       <button type="button" id="mock-server">Mock server error</button>
+      <output id="server-event">No server error event has been observed.</output>
         </form>
 
         <section class="section section--compact" aria-labelledby="server-developer-title">
@@ -217,7 +218,7 @@
     </div>
 
     <script type="module">
-      import { A11yFormValidator } from '../dist/index.js';
+      import { A11yFormValidator, EVENTS } from '../dist/index.js';
       import { createDefaultPreset } from '../dist/presets/default.js';
       const validator = new A11yFormValidator(document.getElementById('server-form'), createDefaultPreset());
       document.getElementById('mock-server').addEventListener('click', () => {
@@ -226,6 +227,12 @@
           form: 'Your session expired. Reload the page.'
         });
         validator.focusOnError();
+      });
+      validator.events.on(EVENTS.errorsChanged, (event) => {
+        const output = document.getElementById('server-event');
+        if (output && event.detail.source === 'server') {
+          output.textContent = `Observed errors-changed from ${event.detail.source}.`;
+        }
       });
     </script>
   </body>

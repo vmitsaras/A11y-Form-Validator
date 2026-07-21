@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Inspect delegated A11y Form Validator lifecycle events, async submission, reset, refresh, and server error changes." />
+    <title>Lifecycle Events | A11y Form Validator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./dist/styles.css" />
+  </head>
+  <body class="demo-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="container">
+      <header class="header" aria-label="Demo header">
+        <a class="brand" href="index.html" aria-label="A11y Form Validator demo home">
+          <span class="brand__mark" aria-hidden="true">AFV</span>
+          <span>
+            <span class="brand__name">A11y Form Validator</span>
+            <span class="brand__meta">Lifecycle events</span>
+          </span>
+        </a>
+        <nav class="header-nav" aria-label="Page">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#api">API</a>
+          <a href="index.html#demos">Demos</a>
+          <a class="button button--ghost" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">README</a>
+        </nav>
+      </header>
+
+      <main id="main" class="demo-page__main" tabindex="-1">
+        <section class="demo-page__intro" aria-labelledby="demo-title">
+          <p class="eyebrow">Integration demo</p>
+          <h1 id="demo-title">Lifecycle Events</h1>
+          <p>Observe typed, bubbling lifecycle events without turning a developer log into assistive-technology noise.</p>
+          <a class="back-link" href="index.html#demos">Back to demo gallery</a>
+        </section>
+
+        <noscript>
+          <p class="callout">JavaScript is required to populate the event log. The form remains semantic HTML without enhancement.</p>
+        </noscript>
+
+        <section id="lifecycle-root" class="demo-lifecycle" aria-labelledby="example-title">
+          <div class="demo-lifecycle__panel">
+            <h2 id="example-title">Try lifecycle transitions</h2>
+            <p>Use <code>admin</code> to produce an async field error. Save Draft and Publish preserve different submitter values.</p>
+
+            <form id="lifecycle-form" action="#demo-result" method="get">
+              <label for="username">Username</label>
+              <input id="username" name="username" required data-validate="available-username" autocomplete="username" />
+
+              <div id="dynamic-field"></div>
+
+              <div class="lifecycle-events__submitters">
+                <button type="submit" name="action" value="draft">Save draft</button>
+                <button type="submit" name="action" value="publish" class="button--secondary">Publish</button>
+              </div>
+            </form>
+
+            <div class="demo-lifecycle__actions" aria-label="Validator commands">
+              <button type="button" id="toggle-field" class="button--ghost">Add dynamic field and refresh</button>
+              <button type="button" id="server-error" class="button--ghost">Apply server error</button>
+              <button type="button" id="clear-errors" class="button--ghost">Clear errors</button>
+              <button type="button" id="reset-validator" class="button--ghost">Reset validator</button>
+            </div>
+
+            <div class="demo-lifecycle__status" aria-labelledby="status-title">
+              <h3 id="status-title">Demo status</h3>
+              <p id="demo-status">No command has run yet.</p>
+            </div>
+          </div>
+
+          <section class="demo-lifecycle__panel" aria-labelledby="event-log-title">
+            <h2 id="event-log-title">Delegated event log</h2>
+            <p class="lifecycle-events__note">This visual debug log is intentionally not a live region and never receives focus.</p>
+            <ol id="event-log" class="lifecycle-events__log" aria-label="Validator lifecycle event log"></ol>
+          </section>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="developer-title">
+          <div class="section__header">
+            <h2 id="developer-title">Developer notes</h2>
+            <p>The parent section subscribes before initialization, so it observes <code>init</code> and every later bubbling event. Event handlers are observations; commands still use validator methods.</p>
+          </div>
+          <div class="code-grid">
+            <article class="code-card">
+              <h3>Typed subscription</h3>
+              <pre><code>validator.events.on(EVENTS.errorsChanged, (event) =&gt; {
+  console.log(event.detail.source, event.detail.errors);
+});</code></pre>
+            </article>
+            <article class="code-card">
+              <h3>Delegated DOM listener</h3>
+              <pre><code>root.addEventListener(EVENTS.fieldPending, (event) =&gt; {
+  console.log(event.target, event.currentTarget);
+});</code></pre>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="demo-footer" data-demo-footer>
+        <div class="demo-footer__inner">
+          <div class="demo-footer__brand">
+            <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+            <p class="demo-footer__credit"><span class="demo-footer__plugin">A11y Form Validator</span> <span aria-hidden="true">&middot;</span> Built by <a class="demo-footer__link" href="https://github.com/vmitsaras">Vasileios Mistaras</a></p>
+          </div>
+          <nav class="demo-footer__nav" aria-label="Project links">
+            <ul class="demo-footer__links">
+              <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">GitHub repository</a></li>
+              <li class="demo-footer__item"><a class="demo-footer__link" href="https://www.npmjs.com/package/a11y-form-validator">npm package</a></li>
+              <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator#readme">Documentation</a></li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { EVENTS, createDefaultPreset, createFormValidator } from './dist/index.js';
+
+      const root = document.getElementById('lifecycle-root');
+      const form = document.getElementById('lifecycle-form');
+      const log = document.getElementById('event-log');
+      const status = document.getElementById('demo-status');
+      const dynamicField = document.getElementById('dynamic-field');
+
+      if (root instanceof HTMLElement && form instanceof HTMLFormElement && log instanceof HTMLOListElement) {
+        for (const eventName of Object.values(EVENTS)) {
+          root.addEventListener(eventName, (event) => {
+            const detail = event.detail || {};
+            const item = document.createElement('li');
+            const context = [
+              detail.reason ? `reason=${detail.reason}` : '',
+              detail.fieldName ? `field=${detail.fieldName}` : '',
+              detail.source ? `source=${detail.source}` : '',
+              detail.cause ? `cause=${detail.cause}` : '',
+              detail.submitter?.value ? `submitter=${detail.submitter.value}` : ''
+            ].filter(Boolean).join(', ');
+            item.textContent = `${event.type}${context ? ` (${context})` : ''}; target=${event.target.id}; currentTarget=${event.currentTarget.id}`;
+            log.prepend(item);
+            while (log.children.length > 40) {
+              log.lastElementChild?.remove();
+            }
+          });
+        }
+
+        const validator = createFormValidator(form, {
+          ...createDefaultPreset(),
+          validateOn: ['submit', 'blur', 'input'],
+          debounce: 250
+        });
+
+        form.addEventListener('submit', (event) => {
+          const validatorIntercepted = event.defaultPrevented;
+          event.preventDefault();
+          if (status) {
+            status.textContent = validatorIntercepted
+              ? 'The original submit was canceled while validation completes.'
+              : 'The final requestSubmit event was observed; demo navigation was prevented.';
+          }
+        });
+
+        const taken = new Set(['admin', 'editor']);
+        validator.registerRule('availableUsername', async ({ value }) => {
+          await new Promise((resolve) => setTimeout(resolve, 350));
+          return {
+            valid: !taken.has(String(value).trim().toLowerCase()),
+            message: 'That username is already taken.'
+          };
+        });
+
+        document.getElementById('toggle-field')?.addEventListener('click', (event) => {
+          const button = event.currentTarget;
+          const existing = document.getElementById('project-code');
+          if (existing) {
+            existing.closest('.lifecycle-events__dynamic-field')?.remove();
+            if (button instanceof HTMLButtonElement) button.textContent = 'Add dynamic field and refresh';
+          } else if (dynamicField) {
+            dynamicField.innerHTML = '<div class="lifecycle-events__dynamic-field"><label for="project-code">Project code</label><input id="project-code" name="projectCode" required /></div>';
+            if (button instanceof HTMLButtonElement) button.textContent = 'Remove dynamic field and refresh';
+          }
+          validator.refresh();
+          if (status) status.textContent = 'Dynamic fields were rescanned.';
+        });
+
+        document.getElementById('server-error')?.addEventListener('click', () => {
+          validator.setErrors({ username: 'The server reserved this username during review.' });
+          validator.focusOnError();
+          if (status) status.textContent = 'A server-originated error was applied.';
+        });
+
+        document.getElementById('clear-errors')?.addEventListener('click', () => {
+          validator.clearErrors();
+          if (status) status.textContent = 'Effective errors were cleared without pretending validation ran.';
+        });
+
+        document.getElementById('reset-validator')?.addEventListener('click', () => {
+          validator.reset();
+          if (status) status.textContent = 'The form and validator state were reset.';
+        });
+      }
+    </script>
+  </body>
+</html>

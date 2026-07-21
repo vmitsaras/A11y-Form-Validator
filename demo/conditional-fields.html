@@ -772,6 +772,14 @@ form.addEventListener("a11y-conditional-fields:change", async () =&gt; {
           updateReadout();
         });
 
+        form.addEventListener("a11y-form-validator:errors-changed", () => {
+          updateReadout();
+        });
+
+        form.addEventListener("a11y-form-validator:refresh", () => {
+          updateReadout();
+        });
+
         form.addEventListener("a11y-form-validator:submit-blocked", () => {
           updateReadout();
         });

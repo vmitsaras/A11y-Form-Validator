@@ -16,6 +16,11 @@ export interface PluginDocs {
     key: string;
     description: string;
   }>;
+  events?: Array<{
+    name: string;
+    description: string;
+    detail?: string[];
+  }>;
   accessibility?: string[];
   limitations?: string[];
   api: Array<{
@@ -72,6 +77,23 @@ if (form instanceof HTMLFormElement) {
       key: 'Space',
       description: 'Toggles native checkboxes and radio buttons; the validator preserves native control behavior.'
     }
+  ],
+  events: [
+    { name: 'a11y-form-validator:init', description: 'Initialization completed.', detail: ['instance', 'validator', 'form', 'state'] },
+    { name: 'a11y-form-validator:before-validate', description: 'Full-form validation started.', detail: ['reason', 'state'] },
+    { name: 'a11y-form-validator:field-pending', description: 'A field entered validation.', detail: ['field', 'fieldName', 'element', 'reason', 'state'] },
+    { name: 'a11y-form-validator:field-valid', description: 'A field validation succeeded.', detail: ['field', 'fieldName', 'valid', 'reason', 'state'] },
+    { name: 'a11y-form-validator:field-invalid', description: 'A field validation failed.', detail: ['field', 'fieldName', 'valid', 'message', 'reason', 'state'] },
+    { name: 'a11y-form-validator:field-ignored', description: 'A disabled, hidden, or selector-matched field was skipped.', detail: ['field', 'fieldName', 'ignoredReason', 'reason', 'state'] },
+    { name: 'a11y-form-validator:errors-changed', description: 'The effective error snapshot changed.', detail: ['errors', 'previousErrors', 'source', 'reason', 'state'] },
+    { name: 'a11y-form-validator:after-validate', description: 'A real full-form validation completed.', detail: ['valid', 'reason', 'errors', 'state'] },
+    { name: 'a11y-form-validator:form-valid', description: 'Full-form validation established a valid form.', detail: ['valid', 'reason', 'errors', 'state'] },
+    { name: 'a11y-form-validator:form-invalid', description: 'Validation or server errors established an invalid form.', detail: ['valid', 'reason', 'errors', 'state'] },
+    { name: 'a11y-form-validator:submit-blocked', description: 'An intercepted submission could not proceed.', detail: ['submitter', 'cause', 'error', 'errors', 'state'] },
+    { name: 'a11y-form-validator:submit-ready', description: 'Submit validation succeeded before requestSubmit().', detail: ['submitter', 'valid', 'errors', 'state'] },
+    { name: 'a11y-form-validator:refresh', description: 'Dynamic field collection completed.', detail: ['reason', 'state'] },
+    { name: 'a11y-form-validator:reset', description: 'Validator reset completed.', detail: ['reason', 'state'] },
+    { name: 'a11y-form-validator:destroy', description: 'Validator cleanup completed.', detail: ['state'] }
   ],
   accessibility: [
     'Enhances native form controls and keeps existing labels, groups, and fieldsets in place.',
@@ -161,6 +183,11 @@ if (form instanceof HTMLFormElement) {
       description: 'Adds or removes custom validation rules for product-specific, conditional, cross-field, or async validation.'
     },
     {
+      name: 'EVENTS, ValidatorEventMap, ValidatorCustomEvent',
+      type: 'runtime constants and TypeScript event types',
+      description: 'Provides typed lifecycle subscriptions through validator.events and typed native DOM event detail without global event-map augmentation.'
+    },
+    {
       name: 'reset(), enable(), disable(), destroy()',
       type: 'instance methods',
       description: 'Reset state, toggle validation, or remove listeners, generated errors, addons, timers, plugin classes, and generated ARIA state.'
@@ -218,6 +245,11 @@ if (form instanceof HTMLFormElement) {
       name: 'Remote Validation',
       description: 'Username availability checked with an async custom rule and debounced input validation.',
       path: 'https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/remote-validation.html'
+    },
+    {
+      name: 'Lifecycle Events',
+      description: 'Delegated lifecycle events, pending field state, error snapshots, reset, refresh, and submitter-preserving async submission.',
+      path: 'https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/lifecycle-events.html'
     },
     {
       name: 'Server Errors',

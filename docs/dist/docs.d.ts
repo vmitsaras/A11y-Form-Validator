@@ -17,6 +17,11 @@ interface PluginDocs {
     key: string;
     description: string;
   }>;
+  events?: Array<{
+    name: string;
+    description: string;
+    detail?: string[];
+  }>;
   accessibility?: string[];
   limitations?: string[];
   api: Array<{
@@ -47,6 +52,11 @@ declare const docs: {
   keyboard: {
     key: string;
     description: string;
+  }[];
+  events: {
+    name: string;
+    description: string;
+    detail: string[];
   }[];
   accessibility: string[];
   limitations: string[];

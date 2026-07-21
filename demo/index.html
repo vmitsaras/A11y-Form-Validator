@@ -402,10 +402,12 @@
             <h3 id="events-title">Listen only when your app needs hooks</h3>
             <p>
               Lifecycle and validation events bubble from the form. Common hooks include
-              <code>a11y-form-validator:init</code>, <code>a11y-form-validator:after-validate</code>,
-              <code>a11y-form-validator:field-invalid</code>,
+              <code>a11y-form-validator:field-pending</code>,
+              <code>a11y-form-validator:errors-changed</code>,
+              <code>a11y-form-validator:after-validate</code>,
               <code>a11y-form-validator:submit-blocked</code>, and
-              <code>a11y-form-validator:destroy</code>.
+              <code>a11y-form-validator:submit-ready</code>. The
+              <a href="lifecycle-events.html">lifecycle events demo</a> shows the complete contract.
             </p>
           </aside>
         </section>
@@ -632,6 +634,23 @@
               <span class="card-link">View demo</span>
             </a>
 
+            <a class="demo-card" href="lifecycle-events.html">
+              <span class="badge badge--amber">Lifecycle</span>
+              <h3>Lifecycle Events</h3>
+              <p>Delegated typed events, async submission, error snapshots, reset, and dynamic field refresh.</p>
+              <dl>
+                <div>
+                  <dt>Best for</dt>
+                  <dd>Addon and application integrations.</dd>
+                </div>
+                <div>
+                  <dt>Try this</dt>
+                  <dd>Submit with <code>admin</code>, switch actions, then reset or refresh.</dd>
+                </div>
+              </dl>
+              <span class="card-link">View demo</span>
+            </a>
+
             <a class="demo-card" href="server-errors.html">
               <span class="badge badge--red">Server</span>
               <h3>Server Errors</h3>
@@ -694,7 +713,7 @@
             <li>Run <code>npm run build</code> before opening local demos because they import from <code>dist</code>.</li>
             <li>Bundler users should keep the normal package entry; direct browser users can import <code>dist/index.min.js</code> or <code>a11y-form-validator/min</code>.</li>
             <li>Custom widgets need custom rules, a custom renderer, or extra integration code.</li>
-            <li>Async validation can return promises, but request cancellation belongs to the application.</li>
+            <li>Async rules can return promises; submit validation cancels synchronously and resumes valid native submission with the original submitter.</li>
             <li>Final product forms should still be tested with target browsers and assistive technologies.</li>
           </ul>
         </section>

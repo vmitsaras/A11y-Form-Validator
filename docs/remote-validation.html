@@ -145,6 +145,7 @@
         <form id="remote-form">
       <label for="username">Username</label>
       <input id="username" name="username" required data-validate="available-username" />
+      <p id="remote-status" role="status" aria-live="polite" aria-atomic="true">Enter a username to check availability.</p>
       <button type="submit">Save</button>
         </form>
 
@@ -220,7 +221,7 @@ validator.registerRule("availableUsername", async ({ value }) =&gt; {
     </div>
 
     <script type="module">
-      import { A11yFormValidator } from './dist/index.js';
+      import { A11yFormValidator, EVENTS } from './dist/index.js';
       import { createDefaultPreset } from './dist/presets/default.js';
       const taken = new Set(['admin', 'editor']);
       const validator = new A11yFormValidator(document.getElementById('remote-form'), {
@@ -232,6 +233,23 @@ validator.registerRule("availableUsername", async ({ value }) =&gt; {
       validator.registerRule('availableUsername', async ({ value }) => {
         await new Promise((resolve) => setTimeout(resolve, 150));
         return { valid: !taken.has(String(value).trim().toLowerCase()), message: 'That username is already taken.' };
+      });
+
+      const status = document.getElementById('remote-status');
+      validator.events.on(EVENTS.fieldPending, (event) => {
+        if (event.detail.fieldName === 'username' && status) {
+          status.textContent = 'Checking username availability…';
+        }
+      });
+      validator.events.on(EVENTS.fieldValid, (event) => {
+        if (event.detail.fieldName === 'username' && status) {
+          status.textContent = 'Username is available.';
+        }
+      });
+      validator.events.on(EVENTS.fieldInvalid, (event) => {
+        if (event.detail.fieldName === 'username' && status) {
+          status.textContent = event.detail.message;
+        }
       });
     </script>
   </body>

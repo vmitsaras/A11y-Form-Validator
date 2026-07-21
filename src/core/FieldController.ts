@@ -14,6 +14,7 @@ import {
 } from './helpers.js';
 
 export type FormControl = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+export type IgnoredFieldReason = 'disabled' | 'hidden' | 'selector';
 export type FieldType =
   | 'textarea'
   | 'select'
@@ -98,7 +99,7 @@ export class FieldController {
     });
   }
 
-  shouldIgnore(): false | 'disabled' | 'hidden' | 'selector' {
+  shouldIgnore(): false | IgnoredFieldReason {
     const { ignore, validateHidden } = this.validator.options;
     if (ignore.disabled !== false && this.isDisabled()) {
       return 'disabled';

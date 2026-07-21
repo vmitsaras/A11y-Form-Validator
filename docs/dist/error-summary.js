@@ -1,4 +1,4 @@
-import { a as getPreferredScrollBehavior, r as ensureElementId } from "./helpers.js";
+import { _ as getPreferredScrollBehavior, a as EVENTS, g as ensureElementId } from "./A11yFormValidator.js";
 
 //#region src/addons/error-summary.ts
 function createErrorSummaryAddon(options = {}) {
@@ -25,8 +25,7 @@ function createErrorSummaryAddon(options = {}) {
 			this.container.append(this.title, this.list);
 			validator.form.prepend(this.container);
 			validator.summaryAddon = this;
-			this.unsubscribeAfterValidate = validator.events.on("a11y-form-validator:after-validate", () => this.update());
-			this.unsubscribeDestroy = validator.events.on("a11y-form-validator:destroy", () => this.destroy());
+			this.unsubscribeErrorsChanged = validator.events.on(EVENTS.errorsChanged, () => this.update());
 		},
 		getErrors() {
 			if (!this.validator) return [];
@@ -81,8 +80,7 @@ function createErrorSummaryAddon(options = {}) {
 			}
 		},
 		destroy() {
-			this.unsubscribeAfterValidate?.();
-			this.unsubscribeDestroy?.();
+			this.unsubscribeErrorsChanged?.();
 			this.container?.remove();
 			if (this.validator) this.validator.summaryAddon = null;
 			this.container = null;

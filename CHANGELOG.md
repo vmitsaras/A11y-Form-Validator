@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- Normalize the public validator lifecycle contract with typed event details, dedicated pending, ignored, error-change, reset, refresh, and submit-ready events, and consistent validation reasons.
+
+  Submit validation now cancels the original submit synchronously, awaits asynchronous rules, and resumes valid submissions through `requestSubmit()` with the original submitter. Built-in summaries and character counts now use the dedicated error, reset, and refresh events.
+
+  Consumers that used `after-validate` as a generic UI refresh hook should migrate to `errors-changed`, `reset`, or `refresh`; `after-validate` now fires only after real full-form validation.
+
 ## 1.0.19
 
 ### Patch Changes

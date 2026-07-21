@@ -296,19 +296,72 @@ Configured locale lookup uses the explicit `locale`, then the form or document l
 
 ## Events
 
-Events bubble from the form. Event detail includes both `instance` and `validator` for compatibility.
+Lifecycle events are observational `CustomEvent` objects dispatched on the form. They bubble, are not cancelable, and include `instance`, `validator`, and `form` in every detail object. They are not `composed`, so bubbling does not cross a Shadow DOM boundary.
 
-| Event | Notes |
-| --- | --- |
-| `a11y-form-validator:init` | Fired after fields, listeners, and addons are installed. |
-| `a11y-form-validator:before-validate` | Fired before form validation. |
-| `a11y-form-validator:after-validate` | Fired after validation with `valid` and `errors`. |
-| `a11y-form-validator:field-valid` | Fired when a field validates successfully. |
-| `a11y-form-validator:field-invalid` | Fired with `field`, `message`, and `reason`. |
-| `a11y-form-validator:form-valid` | Fired when the form is valid. |
-| `a11y-form-validator:form-invalid` | Fired when the form is invalid. |
-| `a11y-form-validator:submit-blocked` | Fired after a submit is prevented. |
-| `a11y-form-validator:destroy` | Fired after cleanup. |
+Import `EVENTS` instead of repeating event strings:
+
+```ts
+import { EVENTS, createFormValidator } from "a11y-form-validator";
+
+const validator = createFormValidator(form);
+const unsubscribe = validator.events.on(EVENTS.fieldPending, (event) => {
+  console.log(event.detail.fieldName, event.detail.reason);
+});
+
+unsubscribe();
+```
+
+| Event | Trigger | Important detail | Bubbles | Compatibility |
+| --- | --- | --- | --- | --- |
+| `a11y-form-validator:init` | Initial field collection, listeners, and addons are ready | `state` | Yes | Existing event; adds base detail and state |
+| `a11y-form-validator:before-validate` | A full-form validation begins | `reason`, `state` | Yes | Remains full-form-only |
+| `a11y-form-validator:field-pending` | A field enters validation | `field`, `fieldName`, `element`, `reason`, `state` | Yes | New |
+| `a11y-form-validator:field-valid` | A field validation succeeds | Field detail, `valid: true` | Yes | Existing detail retained and expanded |
+| `a11y-form-validator:field-invalid` | A field validation fails | Field detail, `valid: false`, `message` | Yes | Existing detail retained and expanded |
+| `a11y-form-validator:field-ignored` | A disabled, hidden, or selector-matched field is skipped | Field detail, `ignoredReason` | Yes | New |
+| `a11y-form-validator:errors-changed` | The effective field/form error snapshot changes | `errors`, `previousErrors`, `source`, `reason`, `state` | Yes | New; primary error UI integration event |
+| `a11y-form-validator:after-validate` | A real full-form validation completes | `valid`, `reason`, `errors`, `state` | Yes | No longer emitted by clear, set, or reset commands |
+| `a11y-form-validator:form-valid` | Full validation establishes a valid form | `valid: true`, `reason`, `errors`, `state` | Yes | Existing event expanded |
+| `a11y-form-validator:form-invalid` | Full validation or non-empty server errors establish an invalid form | `valid: false`, `reason`, `errors`, `state` | Yes | Existing event expanded |
+| `a11y-form-validator:submit-blocked` | An intercepted submission is invalid or cannot safely resume | `submitter`, `cause`, `error?`, `errors`, `state` | Yes | Existing event expanded |
+| `a11y-form-validator:submit-ready` | Submit validation succeeds before controlled resubmission | `submitter`, `valid: true`, `errors`, `state` | Yes | New |
+| `a11y-form-validator:refresh` | Public `refresh()` completes | `reason: "refresh"`, `state` | Yes | New |
+| `a11y-form-validator:reset` | Public `reset()` completes | `reason: "reset"`, `state` | Yes | New; separate from native `reset` |
+| `a11y-form-validator:destroy` | Validator cleanup completes | `state` | Yes | Existing post-cleanup timing retained |
+
+`before-validate` and `after-validate` describe full-form validation only. Isolated `validateField()` calls use field events and `errors-changed`. A full validation begins with `before-validate`, emits pending and terminal field events, optionally emits one `errors-changed`, then emits `after-validate` and the form result. Independently resolving async fields do not have a guaranteed terminal order.
+
+Reasons default to `manual`, while application-defined strings such as `conditional-change`, `draft-restored`, and `server` remain supported.
+
+For radio and checkbox groups, field event `element` is the primary control; use `field.elements` to access every control in the group. `errors-changed` reports `client-validation`, `server`, `manual-clear`, or `reset` as its source and only fires when the cloned error snapshot actually changes.
+
+Native delegated listeners can use the exported event helper without globally changing DOM event maps:
+
+```ts
+import { EVENTS, type ValidatorCustomEvent } from "a11y-form-validator";
+
+container.addEventListener(EVENTS.errorsChanged, (event) => {
+  const detail = (event as ValidatorCustomEvent<typeof EVENTS.errorsChanged>).detail;
+  console.log(detail.source, detail.errors);
+});
+```
+
+### Asynchronous submission
+
+When submit validation is enabled, the original submit event is prevented synchronously. The validator awaits a stable full-form result, emits `submit-blocked` when invalid, or emits `submit-ready` and calls `form.requestSubmit(originalSubmitter)` when valid. This preserves submit button `name`, `value`, and per-button submission attributes without using `form.submit()`.
+
+External submit listeners can observe two events for a valid enhanced submission: the canceled original attempt and the final submit event produced by `requestSubmit()`. They can still cancel the final event. Repeated attempts while validation is pending are coalesced and the latest submitter wins.
+
+### Event migration
+
+Code that previously treated `after-validate` as a generic UI refresh should migrate to the event that represents the actual change:
+
+- error UI and summaries: `errors-changed`
+- reset-dependent UI: `reset`
+- dynamic field integrations: `refresh`
+- full-form analytics or workflow state: `after-validate`
+
+`clearErrors()`, `setErrors()`, and `reset()` no longer emit false `after-validate` events.
 
 ## Accessibility Notes
 
@@ -329,6 +382,7 @@ Still test customized forms with your target browsers and assistive technologies
 
 - The plugin validates controls collected by `selectors.fields`; custom widgets need custom rules or a custom renderer.
 - Remote validation is supported through async custom rules, but request cancellation is the application’s responsibility. Pending state is exposed through state, events, and `.is-pending`; add an application live status such as "Checking..." when users need progress announcements.
+- Valid submit resumption uses `HTMLFormElement.requestSubmit()`, which is part of the Baseline 2024 browser target.
 - The default CSS is intentionally minimal and may need product-specific layout styles.
 - Native browser validation messages vary by browser and locale when `errorMode` includes native behavior.
 
@@ -350,6 +404,7 @@ Repository demo source is also available on GitHub:
 - [Checkout demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/checkout.html) - conditional billing validation and grouped payment choices.
 - [Conditional Fields Integration demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/conditional-fields.html) - integration pattern for `a11y-conditional-fields`, visible-only required fields, validator refresh, and summary updates.
 - [Remote Validation demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/remote-validation.html) - async username availability checks and pending state review.
+- [Lifecycle Events demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/lifecycle-events.html) - delegated typed lifecycle events, async submission, reset, refresh, and server error changes.
 - [Server Errors demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/server-errors.html) - backend field and form errors rendered with `setErrors()`.
 - [Localization demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/localization.html) - English fallback, imported locale JSON, and inline locale messages.
 - [Dynamic Locale demo](https://github.com/vmitsaras/A11y-Form-Validator/blob/main/demo/dynamic-locale.html) - destroy and reinitialize the validator to change runtime error language.
